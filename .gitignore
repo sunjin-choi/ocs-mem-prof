@@ -1,0 +1,7 @@
+
+# vim swap files
+.sw*
+
+# venv
+*venv
+
