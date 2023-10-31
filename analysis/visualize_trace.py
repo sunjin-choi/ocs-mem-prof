@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.cluster import OPTICS
 import sys
 
 assert len(sys.argv) > 1, "provide a trace csv file as argument!"
@@ -31,19 +32,39 @@ def apply_window_sum(data, group_size):
 
     return windowed_data
 
+def select_top_n(data, n):
+    """
+    Select the top n most frequently accessed addresses.
+    """
+    return data.groupby('address').sum().sort_values(by='count', ascending=False).head(n)
+
+def trim_data(data, window_size, start_idx):
+    """
+    Trim the data to the given window size.
+    """
+
+    # Trim the data to the given window size
+    data = data.iloc[start_idx:start_idx+window_size]
+
+    # Reset the index
+    data = data.reset_index(drop=True)
+    
+    return data
+
+def extract_cols(data):
+    x = data['timestamp']
+    y = (data['address']).apply(lambda x: int(str(x), 16))
+    z = data['count']
+    return x, y, z
+
 # Load the data from the CSV file, skipping the found number of rows
 data = pd.read_csv(sys.argv[1], skiprows=range(0, skip_rows + 1), sep=',')
 
-# Group by 1000
-data = apply_window_sum(data, 1000)
+# # Group by 1000
+# data = apply_window_sum(data, 1000)
+data_plot = trim_data(data, 10000, 0)
 
-
-# Extract the 'x', 'y', and 'z' columns from the DataFrame
-x = data['timestamp']
-y_hex = data['address']
-y = y_hex.apply(lambda x: int(str(x), 16))
-z = data['count']
-
+x, y, z = extract_cols(data_plot)
 
 # Create a 3D plot
 fig = plt.figure()
@@ -68,3 +89,26 @@ ax.set_title('Stores and Loads')
 # Display the plot
 # plt.show()
 plt.savefig(f"{sys.argv[1]}.png")
+
+
+# Prepare data for clustering
+data_matrix = np.column_stack((x, y, z))
+
+# Apply OPTICS
+optics = OPTICS(min_samples=5)
+labels = optics.fit_predict(data_matrix)
+
+# Create 3D plot with clustering labels as colors
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(x, y, z, c=labels, cmap='viridis', marker='o')
+
+# Axis labels
+ax.set_xlabel('timestamp')
+ax.set_ylabel('address')
+ax.set_zlabel('frequency')
+ax.set_title('Stores and Loads with OPTICS Clustering')
+
+# Save plot
+plt.savefig(f"{sys.argv[1]}_optics.png")
+
