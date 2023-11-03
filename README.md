@@ -30,6 +30,9 @@ cd tpcds-kit/tools
 make OS=LINUX
 ```
 
+elam note: I had to `sudo apt install -y gcc-9` and `make OS=LINUX CC=gcc-9` for this, had a linker error with gcc 10.2.1
+see https://github.com/gregrahn/tpcds-kit/issues/57
+
 Create db and load schema
 ```
 createdb tpcds
