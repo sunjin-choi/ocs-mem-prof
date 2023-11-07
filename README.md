@@ -5,12 +5,24 @@
 First, install system dependencies (TODO: verify)
 ```
 sudo apt-get install gcc make flex bison byacc git 
-sudo apt-get install gcc-9 build-essential cmake postgres
+sudo apt-get install gcc-9 build-essential cmake postgres postgresql-client
 ```
 
 Initialize postgresql
 ```
 sudo -u postgres createuser -s $(whoami); createdb $(whoami)
+```
+
+Initialize environment
+```
+git clone <this_repo>
+export TPCHOME=~/ocs-mem-prof/tpcds-kit/
+export PATH=$PATH:~/ocs-mem-prof/tpcds-kit/tools/
+```
+
+Force single-threaded to postgres
+```
+echo "max_parallel_workers = 1" | sudo tee  -a /etc/postgresql/16/main/postgresql.conf
 ```
 
 ### DynamoRio
