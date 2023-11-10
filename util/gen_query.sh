@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 echo "generate data and queries..."
-cd $DYNAMORIO_HOME/build
+cd $OCSPROF_HOME/workload
 mkdir -p tpcds-query && cd tpcds-query
 
-dsdgen -DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
+dsdgen -DISTRIBUTIONS $TPCDS_HOME/tools/tpcds.idx
 dsqgen \
-	-DIRECTORY $TPCHOME/query_templates \
-	-INPUT $TPCHOME/query_templates/templates.lst \
+	-DIRECTORY $TPCDS_HOME/query_templates \
+	-INPUT $TPCDS_HOME/query_templates/templates.lst \
 	-VERBOSE Y \
 	-QUALIFY Y \
 	-SCALE 1 \
 	-DIALECT netezza \
 	-OUTPUT_DIR . \
-	-DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
+	-DISTRIBUTIONS $TPCDS_HOME/tools/tpcds.idx
 
