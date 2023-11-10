@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "generate data and queries..."
-cd $DYNRIOHOME/build
+cd $DYNAMORIO_HOME/build
 mkdir -p tpcds-query && cd tpcds-query
 
 dsdgen -DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
