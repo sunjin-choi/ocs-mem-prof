@@ -10,14 +10,20 @@ sudo apt-get install gcc-9 build-essential cmake postgresql postgresql-client -y
 
 Initialize postgresql
 ```
-sudo -u postgres createuser -s $(whoami); createdb $(whoami)
+sudo -u postgres -c "createuser $(whoami) --superuser"
+```
+
+If you want to delete user or created database:
+```
+sudo -u postgres -c "dropuser <created_user>" # delete user
+sudo -u postgres -c "dropdb <created_db>" # delete db
 ```
 
 Initialize environment
 ```
 git clone <this_repo>
-export TPCHOME=~/ocs-mem-prof/tpcds-kit/
-export PATH=$PATH:~/ocs-mem-prof/tpcds-kit/tools/
+chmod +x setup_path.sh
+source setup_path.sh
 ```
 
 Force single-threaded to postgres
