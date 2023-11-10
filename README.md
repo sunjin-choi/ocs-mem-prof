@@ -4,13 +4,31 @@
 
 First, install system dependencies (TODO: verify)
 ```
-sudo apt-get install gcc make flex bison byacc git 
-sudo apt-get install gcc-9 build-essential cmake postgres
+sudo apt-get install gcc make flex bison byacc git -y
+sudo apt-get install gcc-9 build-essential cmake postgresql postgresql-client -y
 ```
 
 Initialize postgresql
 ```
-sudo -u postgres createuser -s $(whoami); createdb $(whoami)
+sudo -u postgres -c "createuser $(whoami) --superuser"
+```
+
+If you want to delete user or created database:
+```
+sudo -u postgres -c "dropuser <created_user>" # delete user
+sudo -u postgres -c "dropdb <created_db>" # delete db
+```
+
+Initialize environment
+```
+git clone <this_repo>
+chmod +x setup_path.sh
+source setup_path.sh
+```
+
+Force single-threaded to postgres
+```
+echo "max_parallel_workers = 1" | sudo tee  -a /etc/postgresql/16/main/postgresql.conf
 ```
 
 ### DynamoRio
@@ -27,7 +45,7 @@ bin64/drrun -t drcachesim  -simulator_type elam -- ls
 ### TPC-DS kit
 ```
 cd tpcds-kit/tools
-make OS=LINUX
+make OS=LINUX CC=gcc-9
 ```
 
 Create db and load schema
