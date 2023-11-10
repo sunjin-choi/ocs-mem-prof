@@ -4,8 +4,8 @@
 
 First, install system dependencies (TODO: verify)
 ```
-sudo apt-get install gcc make flex bison byacc git 
-sudo apt-get install gcc-9 build-essential cmake postgres postgresql-client
+sudo apt-get install gcc make flex bison byacc git -y
+sudo apt-get install gcc-9 build-essential cmake postgresql postgresql-client -y
 ```
 
 Initialize postgresql
