@@ -7,12 +7,9 @@ echo "build tpc-ds tool..."
 cd $TPCDS_HOME/tools
 make OS=LINUX CC=gcc-9
 
-createdb tpcds
-psql tpcds -f tpcds.sql
-
 echo "build dynamorio..."
-
+cd $OCSMEM_HOME
 mkdir build && cd build
-cmake --configure ..
+cmake --configure $DYNAMORIO_HOME
 cmake .
 make -j
