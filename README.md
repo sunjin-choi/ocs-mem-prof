@@ -70,6 +70,7 @@ dsqgen -DIRECTORY $TPCHOME/query_templates -INPUT $TPCHOME/query_templates/templ
 
 Wrap psql query into bash: for two reasons, psql is a terminal wrapper which is a perl script and < does not look compatible with dynamorio
 ```
+cd $OCSMEM_HOME/dynamorio/build
 echo "perl /usr/bin/psql tpcds < query_0.sql" >> run_psql_query_0.sh
 chmod +x run_psql_query_0.sh
 ./bin64/drrun -t drcachesim -simulator_type elam -- bash run_psql_query_0.sh 2> data.csv
