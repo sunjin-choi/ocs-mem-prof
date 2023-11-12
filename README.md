@@ -10,7 +10,7 @@ sudo apt-get install gcc-9 build-essential cmake postgresql postgresql-client -y
 
 Initialize postgresql
 ```
-sudo -u postgres -c "createuser $(whoami) --superuser"
+sudo -u postgres createuser --superuser $(whoami)
 ```
 
 If you want to delete user or created database:
@@ -45,7 +45,7 @@ bin64/drrun -t drcachesim  -simulator_type elam -- ls
 
 ### TPC-DS kit
 ```
-cd tpcds-kit/tools
+cd $OCSMEM_HOME/tpcds-kit/tools
 make OS=LINUX CC=gcc-9
 ```
 
@@ -57,7 +57,7 @@ psql tpcds -f tpcds.sql
 
 Change directory into DynamoRio build dir and generate data
 ```
-cd <dynamo_build_dir>
+cd $OCSMEM_HOME/dynamorio
 dsdgen -DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
 ```
 
