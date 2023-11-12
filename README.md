@@ -21,7 +21,7 @@ sudo -u postgres -c "dropdb <created_db>" # delete db
 
 Initialize environment
 ```
-git clone <this_repo>
+git clone https://github.com/sunjin-choi/ocs-mem-prof/tree/master
 git submodule update --init --recursive
 chmod +x setup_path.sh
 source setup_path.sh
@@ -34,7 +34,7 @@ echo "max_parallel_workers = 1" | sudo tee  -a /etc/postgresql/16/main/postgresq
 
 ### DynamoRio
 ```
-cd dynamorio
+cd $OCSMEM_HOME/dynamorio
 mkdir build
 cd build
 cmake --configure ..
@@ -51,18 +51,20 @@ make OS=LINUX CC=gcc-9
 
 Create db and load schema
 ```
+cd $OCSMEM_HOME/tpcds-kit/tools
 createdb tpcds
 psql tpcds -f tpcds.sql
 ```
 
 Change directory into DynamoRio build dir and generate data
 ```
-cd $OCSMEM_HOME/dynamorio
+cd $OCSMEM_HOME/dynamorio/build
 dsdgen -DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
 ```
 
 Generate queries inside DynamoRio build dir
 ```
+cd $OCSMEM_HOME/dynamorio/build
 dsqgen -DIRECTORY $TPCHOME/query_templates -INPUT $TPCHOME/query_templates/templates.lst -VERBOSE Y -QUALIFY Y -SCALE 1 -DIALECT netezza -OUTPUT_DIR . -DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
 ```
 
