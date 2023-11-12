@@ -26,7 +26,7 @@ chmod +x setup_path.sh
 source setup_path.sh
 ```
 
-Force single-threaded to postgres
+Force postgress to only use one worker process (this makes instrumentation simpler)
 ```
 echo "max_parallel_workers = 1" | sudo tee  -a /etc/postgresql/16/main/postgresql.conf
 ```
