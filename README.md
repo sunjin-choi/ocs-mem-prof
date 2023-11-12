@@ -22,6 +22,7 @@ sudo -u postgres -c "dropdb <created_db>" # delete db
 Initialize environment
 ```
 git clone <this_repo>
+git submodule update --init --recursive
 chmod +x setup_path.sh
 source setup_path.sh
 ```
