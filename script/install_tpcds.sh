@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 echo "build tpc-ds tool..."
-cd $TPCDS_HOME/tools
+cd $TPCHOME/tools
 make OS=LINUX CC=gcc-9
