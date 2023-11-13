@@ -13,7 +13,7 @@ echo "generate data in ${1}"
 mkdir -p $DUMP_PATH && cd $DUMP_PATH
 
 dsdgen \
-    -DISTRIBUTIONS $TPCDS_HOME/tools/tpcds.idx \
+    -DISTRIBUTIONS $TPCHOME/tools/tpcds.idx \
     -VERBOSE Y \
     -FORCE \
     -SCALE $SCALE
