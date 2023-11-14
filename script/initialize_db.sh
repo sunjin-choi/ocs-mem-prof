@@ -1,19 +1,25 @@
 #!/usr/bin/env bash
 
+# Check if the correct number of arguments are provided
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <scale> <rngseed>"
+	echo "Initializes postgres db with tpcds and loads data from /tmp/tpcds-data/scale-<scale>-rngseed-<rngseed>"
+    exit 1
+fi
+
+SCALE=$1
+RNGSEED=$2
+
+DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
+DATA_DIR=/tmp/tpcds-data/scale-${SCALE}-rngseed-${RNGSEED}
+
+# initialize db
 cd $TPCHOME/tools
-createdb tpcds
-psql tpcds -f tpcds.sql
+createdb $DB_NAME
+psql $DB_NAME -f tpcds.sql
 
-echo "generate data and queries..."
-cd $OCSMEM_HOME/workload
-mkdir -p tpcds-query && cd tpcds-query
-
-dsdgen \
-	-DISTRIBUTIONS $TPCHOME/tools/tpcds.idx \
-	-VERBOSE Y \
-	-FORCE \
-	-SCALE 1
-
+# load data
+cd $DATA_DIR
 for i in `ls *.dat`; do
   table=${i/.dat/}
   echo "Loading $table..."
@@ -21,14 +27,3 @@ for i in `ls *.dat`; do
   psql tpcds -q -c "TRUNCATE $table"
   psql tpcds -c "\\copy $table FROM '/tmp/$i' CSV DELIMITER '|'"
 done
-
-dsqgen \
-	-DIRECTORY $TPCHOME/query_templates \
-	-INPUT $TPCHOME/query_templates/templates.lst \
-	-VERBOSE Y \
-	-QUALIFY Y \
-	-SCALE 1 \
-	-DIALECT netezza \
-	-OUTPUT_DIR . \
-	-DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
-
