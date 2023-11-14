@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <scale> <rngseed>"
-	echo "Initializes postgres db with tpcds and loads data from /tmp/tpcds-data/scale-<scale>-rngseed-<rngseed>"
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <path-to-data-dir> <scale> <rngseed>"
+	echo "Initializes postgres db with tpcds and loads data from data directory"
     exit 1
 fi
 
-SCALE=$1
-RNGSEED=$2
+DATA_DIR=$1
+SCALE=$2
+RNGSEED=$3
 
 DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
-DATA_DIR=/tmp/tpcds-data/scale-${SCALE}-rngseed-${RNGSEED}
 
 # initialize db
 cd $TPCHOME/tools
