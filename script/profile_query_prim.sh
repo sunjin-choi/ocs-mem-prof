@@ -12,7 +12,7 @@ declare -a QUERY_NAMES=(
 )
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 4 ]; then
+if [ "$#" -ne 3 ]; then
     echo "Usage: $0 <scale> <rngseed> <suffix>"
 	echo "suffix is usually a machine name, but any designater will work"
     exit 1
