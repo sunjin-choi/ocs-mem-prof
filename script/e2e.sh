@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd $TPCDS_HOME/tools
+cd $TPCHOME/tools
 createdb tpcds
 psql tpcds -f tpcds.sql
 
@@ -9,7 +9,7 @@ cd $OCSMEM_HOME/workload
 mkdir -p tpcds-query && cd tpcds-query
 
 dsdgen \
-	-DISTRIBUTIONS $TPCDS_HOME/tools/tpcds.idx \
+	-DISTRIBUTIONS $TPCHOME/tools/tpcds.idx \
 	-VERBOSE Y \
 	-FORCE \
 	-SCALE 1
@@ -23,12 +23,12 @@ for i in `ls *.dat`; do
 done
 
 dsqgen \
-	-DIRECTORY $TPCDS_HOME/query_templates \
-	-INPUT $TPCDS_HOME/query_templates/templates.lst \
+	-DIRECTORY $TPCHOME/query_templates \
+	-INPUT $TPCHOME/query_templates/templates.lst \
 	-VERBOSE Y \
 	-QUALIFY Y \
 	-SCALE 1 \
 	-DIALECT netezza \
 	-OUTPUT_DIR . \
-	-DISTRIBUTIONS $TPCDS_HOME/tools/tpcds.idx
+	-DISTRIBUTIONS $TPCHOME/tools/tpcds.idx
 
