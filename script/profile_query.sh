@@ -17,4 +17,4 @@ mkdir -p /tmp/tpcds-profile
 
 # run dynamorio-elam
 cd build
-./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query.sh ${QUERY_NUM} ${SCALE} ${RNGSEED} | tee $CSV_FILE
+./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query.sh ${QUERY_NUM} ${SCALE} ${RNGSEED} 2> $CSV_FILE
