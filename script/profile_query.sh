@@ -10,10 +10,10 @@ QUERY_NUM=$1
 SCALE=$2
 RNGSEED=$3
 
-CSV_FILE=/tmp/tpcds-profile/query_${QUERY_NUM}_scale_${SCALE}_rngseed_${RNGSEED}.csv
+CSV_FILE=/tmp/tpcds-trace/query_${QUERY_NUM}_scale_${SCALE}_rngseed_${RNGSEED}.csv
 
 # setup tmp dir
-mkdir -p /tmp/tpcds-profile
+mkdir -p /tmp/tpcds-trace
 
 # run dynamorio-elam
 cd build
