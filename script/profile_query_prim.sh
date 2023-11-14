@@ -2,13 +2,13 @@
 
 # Define the list of query names
 declare -a QUERY_NAMES=(
-	"cross_join" \
 	"distinct" \
-	"equijoin" \
 	"full_scan" \
-	"range_scan" \
-	"single-column_aggregation_group_by_query" \
 	"sort_order_by" \
+	#"single-column_aggregation_group_by_query" \
+	#"equijoin" \
+	#"range_scan" \
+	#"cross_join" \
 )
 
 # Check if the correct number of arguments are provided
