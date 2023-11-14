@@ -1,0 +1,1 @@
+SELECT * FROM catalog_sales NATURAL JOIN date_dim ORDER BY cs_wholesale_cost;
