@@ -14,9 +14,6 @@ SUFFIX=$4
 
 CSV_FILE=/tmp/tpcds-trace/query_${QUERY_NUM}_scale_${SCALE}_rngseed_${RNGSEED}_${SUFFIX}.csv
 
-# setup tmp dir
-mkdir -p /tmp/tpcds-trace
-
 # run dynamorio-elam
 cd build
 ./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query.sh ${QUERY_NUM} ${SCALE} ${RNGSEED} 2> $CSV_FILE
