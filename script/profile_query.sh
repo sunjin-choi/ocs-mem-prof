@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 4 ]; then
+if [ "$#" -ne 3 ]; then
     echo "Usage: $0 <query_num> <scale> <rngseed>"
     exit 1
 fi
