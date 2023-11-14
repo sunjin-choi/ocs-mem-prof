@@ -1,1 +1,1 @@
-SELECT cs_item_sk, COUNT(*) FROM catalog_sales GROUP BY cs_bill_customer_sk;
+SELECT cs_item_sk, COUNT(*) FROM catalog_sales GROUP BY cs_item_sk;

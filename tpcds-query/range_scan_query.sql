@@ -1,1 +1,1 @@
-SELECT * FROM catalog_sales WHERE d_year BETWEEN 1999 AND 2003;
+SELECT * FROM date_dim WHERE d_year BETWEEN 1999 AND 2003;

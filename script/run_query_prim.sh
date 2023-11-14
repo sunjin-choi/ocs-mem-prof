@@ -5,10 +5,10 @@ declare -a QUERY_NAMES=(
 	"distinct" \
 	"full_scan" \
 	"sort_order_by" \
-	#"single-column_aggregation_group_by_query" \
-	#"equijoin" \
-	#"range_scan" \
-	#"cross_join" \
+	"single-column_aggregation_group_by_query" \
+	"equijoin" \
+	"range_scan" \
+	"cross_join" \
 )
 
 # Check if the correct number of arguments are provided

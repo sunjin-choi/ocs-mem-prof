@@ -20,9 +20,11 @@ tpc_ds_queries = {
     "Full Scan": "SELECT * FROM {table} WHERE {column} IS NOT NULL;",
     "Cross Join": "SELECT * FROM {table} A CROSS JOIN {alt_table} B;",
     "Equijoin": "SELECT * FROM {table} JOIN {alt_table} ON {table}.{join_column} = {alt_table}.{alt_join_column};",
-    "Range Scan": "SELECT * FROM {table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
+    # "Range Scan": "SELECT * FROM {table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
+    "Range Scan": "SELECT * FROM {dates_table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
     "DISTINCT": "SELECT DISTINCT {column} FROM {table};",
-    "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {group_column};",
+    # "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {group_column};",
+    "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {column};",
     "Sort (ORDER BY)": "SELECT * FROM {table} NATURAL JOIN {dates_table} ORDER BY {order_column};",
 }
 
@@ -51,10 +53,15 @@ range_to = 2003
 
 # TODO set up indices and do indices 
 
+# FIX?: equijoin catalog_sales.cs_item_sk
+# FIX?: range scan date_dim.d_year
+# FIX?: groupby two different columns while aggregate on one column is not a standard sql?
+
 for template in tpc_ds_queries.values():
     os.chdir(os.path.join(os.getenv("DYNAMORIO_HOME"), "build"))
     query = template.format(table=sales_tbl, column=sales_col, alt_table=items_tbl,
-                   join_column=join_col, alt_join_column=join_col,
+                   # join_column=join_col, alt_join_column=join_col,
+                   join_column=sales_col, alt_join_column=join_col,
                    range_column=range_col, value_1=range_from, value_2=range_to,
                    group_column=group_column, dates_table=dates_tbl, order_column=order_column)
     run_query(query=query)
