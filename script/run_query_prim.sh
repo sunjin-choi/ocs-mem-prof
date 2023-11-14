@@ -38,4 +38,4 @@ fi
 
 DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
 
-psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/${QUERY_NAME}_query.sql
+psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/${QUERY_NAME}_query.sql -P pager=off -o /dev/null

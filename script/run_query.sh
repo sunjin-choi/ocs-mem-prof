@@ -12,5 +12,5 @@ RNGSEED=$3
 
 DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
 
-psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/query_${QUERY_NUM}.sql
+psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/query_${QUERY_NUM}.sql -P pager=off -o /dev/null
 
