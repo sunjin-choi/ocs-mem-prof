@@ -2,7 +2,7 @@
 
 # Define the list of query names
 declare -a QUERY_NAMES=(
-	"single-column_aggregation_group_by_query" \
+	"single-column_aggregation_group_by" \
 	"equijoin" \
 	"range_scan" \
 	"cross_join" \

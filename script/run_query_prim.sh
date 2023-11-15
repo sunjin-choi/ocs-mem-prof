@@ -5,7 +5,7 @@ declare -a QUERY_NAMES=(
 	"distinct" \
 	"full_scan" \
 	"sort_order_by" \
-	"single-column_aggregation_group_by_query" \
+	"single-column_aggregation_group_by" \
 	"equijoin" \
 	"range_scan" \
 	"cross_join" \
