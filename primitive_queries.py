@@ -22,7 +22,7 @@ tpc_ds_queries = {
     "Equijoin": "SELECT * FROM {table} JOIN {alt_table} ON {table}.{join_column} = {alt_table}.{alt_join_column};",
     "Range Scan": "SELECT * FROM {table} NATURAL JOIN {dates_table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
     "DISTINCT": "SELECT DISTINCT {column} FROM {table};",
-    "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {group_column};",
+    "Single-Column Aggregation (GROUP BY)": "SELECT {group_column}, COUNT(*) FROM {table} GROUP BY {group_column};",
     "Sort (ORDER BY)": "SELECT * FROM {table} NATURAL JOIN {dates_table} ORDER BY {order_column};",
 }
 
