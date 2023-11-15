@@ -87,3 +87,9 @@ chmod +x run_psql_query_0.sh
 
 
 ## Data profiling
+
+## Mounting Bucket with GCSFuse
+install gcsfuse from https://cloud.google.com/storage/docs/gcsfuse-quickstart-mount-bucket
+```
+gcsfuse tpcds-trace bucket_data
+```
