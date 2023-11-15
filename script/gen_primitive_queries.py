@@ -1,16 +1,13 @@
 
-
 # Dictionary mapping descriptive strings to SQL queries
 # TODO indices might have an optimization where even if it's a reference you can read the actual column value directly out of the index and thus avoid ios int
 tpc_ds_queries = {
     "Full Scan": "SELECT * FROM {table} WHERE {column} IS NOT NULL;",
     "Cross Join": "SELECT * FROM {table} A CROSS JOIN {alt_table} B;",
     "Equijoin": "SELECT * FROM {table} JOIN {alt_table} ON {table}.{join_column} = {alt_table}.{alt_join_column};",
-    # "Range Scan": "SELECT * FROM {table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
-    "Range Scan": "SELECT * FROM {dates_table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
+    "Range Scan": "SELECT * FROM {table} NATURAL JOIN {dates_table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
     "DISTINCT": "SELECT DISTINCT {column} FROM {table};",
-    # "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {group_column};",
-    "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {column};",
+    "Single-Column Aggregation (GROUP BY)": "SELECT {group_column}, COUNT(*) FROM {table} GROUP BY {group_column};",
     "Sort (ORDER BY)": "SELECT * FROM {table} NATURAL JOIN {dates_table} ORDER BY {order_column};",
 }
 
