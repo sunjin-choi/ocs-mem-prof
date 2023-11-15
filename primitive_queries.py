@@ -20,11 +20,9 @@ tpc_ds_queries = {
     "Full Scan": "SELECT * FROM {table} WHERE {column} IS NOT NULL;",
     "Cross Join": "SELECT * FROM {table} A CROSS JOIN {alt_table} B;",
     "Equijoin": "SELECT * FROM {table} JOIN {alt_table} ON {table}.{join_column} = {alt_table}.{alt_join_column};",
-    # "Range Scan": "SELECT * FROM {table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
-    "Range Scan": "SELECT * FROM {dates_table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
+    "Range Scan": "SELECT * FROM {table} NATURAL JOIN {dates_table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
     "DISTINCT": "SELECT DISTINCT {column} FROM {table};",
-    # "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {group_column};",
-    "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {column};",
+    "Single-Column Aggregation (GROUP BY)": "SELECT {column}, COUNT(*) FROM {table} GROUP BY {group_column};",
     "Sort (ORDER BY)": "SELECT * FROM {table} NATURAL JOIN {dates_table} ORDER BY {order_column};",
 }
 
@@ -33,11 +31,12 @@ def run_query(query, prefix=""):
     # TODO should just use path lookup not perl command
     # pager=off disables the 'less' output format (else it hangs forever)
     query_command = ['./bin64/drrun', '-t', 'drcachesim', '-simulator_type', 'elam', '--', 'perl', '/usr/bin/psql', 'tpcds', '-P', "pager=off", '-c', f"'{query}'"]
+    query_command = ['perl', '/usr/bin/psql', 'tpcds', '-P', "pager=off", '-c', f"{query}"]
     print(" ".join(query_command))
-    proc = subprocess.Popen(query_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(query_command)# , stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output, error = proc.communicate()
 
-    print(output)
+    #print(output)
 
 # Constants representing table and column names
 sales_tbl = "catalog_sales"
