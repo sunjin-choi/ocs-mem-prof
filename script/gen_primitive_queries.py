@@ -80,7 +80,7 @@ for query_name, template in tpc_ds_queries.items():
                             join_column=sales_col, alt_join_column=join_col,
                             range_column=range_col, value_1=range_from, value_2=range_to,
                             group_column=group_column, dates_table=dates_tbl, order_column=order_column,
-                            limit=1000)
+                            limit=100)
     
     filename = f"{query_name.replace(' ', '_').lower()}_query.sql"
     # remove parentheses from filename
