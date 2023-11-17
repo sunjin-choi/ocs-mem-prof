@@ -1,0 +1,12 @@
+
+
+file_mounts:
+  ~/sky_workdir/llama-7b-download:
+    name: llama-7b-download
+    store: gcs  
+    mode: MOUNT
+  ~/sky_workdir/llama-7b-chat-download:
+    name: llama-7b-chat-download
+    store: gcs  
+    mode: MOUNT
+

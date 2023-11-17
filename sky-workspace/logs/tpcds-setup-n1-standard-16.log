@@ -1,0 +1,3 @@
+X11 forwarding request failed
+sky.exceptions.CommandError: Command python3 -u -c 'import os;from sky.skylet import job_lib, log_lib;job_id = job_lib.add_job('"'"'-'"'"', '"'"'sunjinchoi'"'"', '"'"'sky-2023-11-15-14-07-43-006941'"'"', '"'"'1x [CPU:0.5]'"'"');print("Job ID: " + str(job_id), flush=True)' failed with return code 255.
+[31mFailed to fetch job id.[0m
