@@ -1,0 +1,39 @@
+
+envs:
+  SCALE: 1
+  DATA_SUFFIX: _1_4
+
+resources:
+  # No GPUs or TPUs specified, so a CPU instance will be provisioned.
+  cloud: gcp
+  instance_type: n2-standard-8
+
+workdir: ./sky-workdir
+
+file_mounts:
+  /tmp/tpcds-data:
+    name: tpcds-data-blob
+    store: gcs
+    mode: MOUNT
+  /tmp/tpcds-trace:
+    name: tpcds-trace
+    store: gcs
+    mode: MOUNT
+
+setup: |
+  echo "install binaries..."
+  sudo apt-get install gcc make flex bison byacc git -y
+  sudo apt-get install gcc-9 build-essential cmake postgresql postgresql-client -y  
+  echo "clone main repo"
+  git clone https://github.com/sunjin-choi/ocs-mem-prof.git
+  cd ocs-mem-prof
+  git submodule update --init --recursive
+  source setup_path.sh
+  bash script/install_tpcds.sh
+  bash script/install_tools.sh
+  bash script/initialize_db.sh /tmp/tpcds-data/scale-${SCALE}-rngseed-0 ${DATA_SUFFIX} ${SCALE} 0
+
+run: |
+  set -e # Exit if any command fails
+  cd ocs-mem-prof
+  source setup_path.sh

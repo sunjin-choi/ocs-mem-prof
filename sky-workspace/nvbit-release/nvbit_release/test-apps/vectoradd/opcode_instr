@@ -1,0 +1,25 @@
+------------- NVBit (NVidia Binary Instrumentation Tool v1.5.3) Loaded --------------
+NVBit core environment variables (mostly for nvbit-devs):
+            NVDISASM = nvdisasm - override default nvdisasm found in PATH
+            NOBANNER = 0 - if set, does not print this banner
+---------------------------------------------------------------------------------
+         INSTR_BEGIN = 0 - Beginning of the instruction interval where to apply instrumentation
+           INSTR_END = 4294967295 - End of the instruction interval where to apply instrumentation
+        KERNEL_BEGIN = 0 - Beginning of the kernel launch interval where to apply instrumentation
+          KERNEL_END = 4294967295 - End of the kernel launch interval where to apply instrumentation
+        TOOL_VERBOSE = 0 - Enable verbosity inside the tool
+    COUNT_WARP_LEVEL = 1 - Count warp level or thread level instructions
+    EXCLUDE_PRED_OFF = 0 - Exclude predicated off instruction from count
+----------------------------------------------------------------------------------------------------
+kernel 0 - vecAdd(double*, double*, double*, int) - #thread-blocks 98,  kernel instructions 50066, total instructions 50066
+  DADD = 3125
+  EXIT = 6261
+  IMAD = 3136
+  IMAD.WIDE = 9375
+  ISETP.GE.AND = 3136
+  LDG.E.64 = 6250
+  MOV = 6261
+  S2R = 6272
+  STG.E.64 = 3125
+  ULDC.64 = 3125
+Final sum = 100000.000000; sum/n = 1.000000 (should be ~1)
