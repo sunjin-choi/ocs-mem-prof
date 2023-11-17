@@ -97,4 +97,5 @@ def draw_scatter_plot(data, trim, length, start_idx, kmeans, n_clusters):
     ax.set_zlabel('frequency')
     ax.set_title('Stores and Loads')
 
+    return fig
 

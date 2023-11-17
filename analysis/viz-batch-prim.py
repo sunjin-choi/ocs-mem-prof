@@ -14,7 +14,7 @@ from viztools import draw_scatter_plot, data_loader
 
 trace_dir = "/tmp/tpcds-trace"
 
-machine_name = "n2-standard-8"
+machine_name = lambda patch: "n2-standard-8" if patch is False else "test"
 query_data = "scale_1_rngseed_0"
 query_limit = 100
 
@@ -25,11 +25,17 @@ if not os.path.exists("plots"):
     os.makedirs("plots")
 
 for query_name in query_names:
-    data = data_loader(trace_dir, query_name, query_data, query_limit, machine_name)
-    fig = draw_scatter_plot(data, True, int(1e6), 0, True, 10)
+    patch = True if query_name in ["cross_join", "sort_order_by"] else False
+    data = data_loader(trace_dir, query_name, query_data, query_limit, machine_name(patch))
 
     # make directory with query name if it doesn't exist
     if not os.path.exists("plots/" + query_name):
         os.makedirs("plots/" + query_name)
+        
+    print(f"generating figures for {query_name}")
 
-    fig.savefig(f"plots/{query_name}/{machine_name}_{query_data}_{query_limit}.png")
+    fig_trimmed = draw_scatter_plot(data, True, int(5e6), int(1e6), True, 10)
+    fig_trimmed.savefig(f"plots/{query_name}/{machine_name(patch)}_{query_data}_{query_limit}_trimmed.png")
+
+    fig_full = draw_scatter_plot(data, False, -1, -1, True, 10)
+    fig_full.savefig(f"plots/{query_name}/{machine_name(patch)}_{query_data}_{query_limit}.png")
