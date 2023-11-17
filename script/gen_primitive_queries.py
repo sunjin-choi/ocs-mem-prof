@@ -12,13 +12,49 @@
 # }
 
 tpc_ds_queries = {
-    "Full Scan": "SELECT * FROM (SELECT * FROM {table} LIMIT 100) AS sub_{table} WHERE {column} IS NOT NULL;",
-    "Cross Join": "SELECT * FROM (SELECT * FROM {table} LIMIT 100) AS sub_{table} CROSS JOIN (SELECT * FROM {alt_table} LIMIT 100) AS sub_{alt_table};",
-    "Equijoin": "SELECT * FROM (SELECT * FROM {table} LIMIT 100) AS sub_{table} JOIN (SELECT * FROM {alt_table} LIMIT 100) AS sub_{alt_table} ON sub_{table}.{join_column} = sub_{alt_table}.{alt_join_column};",
-    "Range Scan": "SELECT * FROM (SELECT * FROM {table} LIMIT 100) AS sub_{table} NATURAL JOIN (SELECT * FROM {dates_table} LIMIT 100) AS sub_{dates_table} WHERE {range_column} BETWEEN {value_1} AND {value_2};",
-    "DISTINCT": "SELECT DISTINCT {column} FROM (SELECT * FROM {table} LIMIT 100) AS sub_{table};",
-    "Single-Column Aggregation (GROUP BY)": "SELECT {group_column}, COUNT(*) FROM (SELECT * FROM {table} LIMIT 100) AS sub_{table} GROUP BY {group_column};",
-    "Sort (ORDER BY)": "SELECT * FROM (SELECT * FROM {table} LIMIT 100) AS sub_{table} NATURAL JOIN (SELECT * FROM {dates_table} LIMIT 100) AS sub_{dates_table} ORDER BY {order_column};",
+    "Full Scan": """
+        SELECT * 
+        FROM (SELECT * FROM {table} LIMIT {limit}) AS sub_{table} 
+        WHERE {column} IS NOT NULL;
+    """,
+
+    "Cross Join": """
+        SELECT * 
+        FROM (SELECT * FROM {table} LIMIT {limit}) AS sub_{table} 
+        CROSS JOIN (SELECT * FROM {alt_table} LIMIT {limit}) AS sub_{alt_table};
+    """,
+
+    "Equijoin": """
+        SELECT * 
+        FROM (SELECT * FROM {table} LIMIT {limit}) AS sub_{table} 
+        JOIN (SELECT * FROM {alt_table} LIMIT {limit}) AS sub_{alt_table} 
+        ON sub_{table}.{join_column} = sub_{alt_table}.{alt_join_column};
+    """,
+
+    "Range Scan": """
+        SELECT * 
+        FROM (SELECT * FROM {table} LIMIT {limit}) AS sub_{table} 
+        NATURAL JOIN (SELECT * FROM {dates_table} LIMIT {limit}) AS sub_{dates_table} 
+        WHERE {range_column} BETWEEN {value_1} AND {value_2};
+    """,
+
+    "DISTINCT": """
+        SELECT DISTINCT {column} 
+        FROM (SELECT * FROM {table} LIMIT {limit}) AS sub_{table};
+    """,
+
+    "Single-Column Aggregation (GROUP BY)": """
+        SELECT {group_column}, COUNT(*) 
+        FROM (SELECT * FROM {table} LIMIT {limit}) AS sub_{table} 
+        GROUP BY {group_column};
+    """,
+
+    "Sort (ORDER BY)": """
+        SELECT * 
+        FROM (SELECT * FROM {table} LIMIT {limit}) AS sub_{table} 
+        NATURAL JOIN (SELECT * FROM {dates_table} LIMIT {limit}) AS sub_{dates_table} 
+        ORDER BY {order_column};
+    """
 }
 
 # Constants representing table and column names
@@ -43,7 +79,8 @@ for query_name, template in tpc_ds_queries.items():
                             # join_column=join_col, alt_join_column=join_col,
                             join_column=sales_col, alt_join_column=join_col,
                             range_column=range_col, value_1=range_from, value_2=range_to,
-                            group_column=group_column, dates_table=dates_tbl, order_column=order_column)
+                            group_column=group_column, dates_table=dates_tbl, order_column=order_column,
+                            limit=1000)
     
     filename = f"{query_name.replace(' ', '_').lower()}_query.sql"
     # remove parentheses from filename
