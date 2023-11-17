@@ -12,14 +12,15 @@ declare -a QUERY_NAMES=(
 )
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 3 ]; then
-	echo "Usage: $0 <query_name> <scale> <rngseed>"
+if [ "$#" -ne 4 ]; then
+	echo "Usage: $0 <query_name> <scale> <rngseed> <mode>"
 	exit 1
 fi
 
 QUERY_NAME=$1
 SCALE=$2
 RNGSEED=$3
+MODE=$4
 
 # Check if QUERY_NAME is in QUERY_NAMES array
 if [[ ! " ${QUERY_NAMES[@]} " =~ " ${QUERY_NAME} " ]]; then
@@ -38,4 +39,9 @@ fi
 
 DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
 
-psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/${QUERY_NAME}_query.sql -P pager=off -o /dev/null
+# if MODE is debug, then print to stdout
+if [ "$MODE" == "debug" ]; then
+	psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/${QUERY_NAME}_query.sql -P pager=off
+else
+	psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/${QUERY_NAME}_query.sql -P pager=off -o /dev/null
+fi

@@ -35,5 +35,5 @@ SUFFIX=$4
 cd build
 echo "Running query: $QUERY_NAME"
 CSV_FILE=/tmp/tpcds-trace/query_${QUERY_NAME}_scale_${SCALE}_rngseed_${RNGSEED}_${SUFFIX}.csv
-./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query_prim.sh ${QUERY_NAME} ${SCALE} ${RNGSEED} 2> $CSV_FILE
+./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query_prim.sh ${QUERY_NAME} ${SCALE} ${RNGSEED} profile 2> $CSV_FILE
 
