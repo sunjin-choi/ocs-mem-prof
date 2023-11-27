@@ -9,18 +9,20 @@ declare -a QUERY_NAMES=(
 	"equijoin" \
 	"range_scan" \
 	"cross_join" \
+	"all" \
 )
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 4 ]; then
-	echo "Usage: $0 <query_name> <scale> <rngseed> <mode>"
+if [ "$#" -ne 5 ]; then
+	echo "Usage: $0 <query_name> <scale> <rngseed> <tbl_size> <mode>"
 	exit 1
 fi
 
 QUERY_NAME=$1
 SCALE=$2
 RNGSEED=$3
-MODE=$4
+TBL_SIZE=$4
+MODE=$5
 
 # Check if QUERY_NAME is in QUERY_NAMES array
 if [[ ! " ${QUERY_NAMES[@]} " =~ " ${QUERY_NAME} " ]]; then
@@ -28,20 +30,14 @@ if [[ ! " ${QUERY_NAMES[@]} " =~ " ${QUERY_NAME} " ]]; then
 	exit 1
 fi
 
-## Check if the correct number of arguments are provided
-#if [ "$#" -ne 2 ]; then
-#    echo "Usage: $0 <scale> <rngseed>"
-#    exit 1
-#fi
-#
-#SCALE=$1
-#RNGSEED=$2
-
 DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
+QUERY_DIR=${OCSMEM_HOME}/benchmark/db_ubmark_query
+QUERY_TBL=catalog_sales
+QUERY_FILE=${QUERY_DIR}/${QUERY_NAME}_${QUERY_TBL}_ubmark_${TBL_SIZE}_query.sql
 
 # if MODE is debug, then print to stdout
 if [ "$MODE" == "debug" ]; then
-	psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/${QUERY_NAME}_query.sql -P pager=off
+	psql $DB_NAME -f ${QUERY_FILE} -P pager=off
 else
-	psql $DB_NAME -f $OCSMEM_HOME/tpcds-query/${QUERY_NAME}_query.sql -P pager=off -o /dev/null
+	psql $DB_NAME -f ${QUERY_FILE} -P pager=off -o /dev/null
 fi

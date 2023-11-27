@@ -1,0 +1,1 @@
+SELECT * FROM catalog_sales_ubmark_10000 JOIN item ON catalog_sales_ubmark_10000.cs_item_sk = item.i_item_sk;

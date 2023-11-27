@@ -7,7 +7,8 @@ envs:
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.
   cloud: gcp
-  instance_type: n1-standard-16
+  accelerators: P100:1
+  #instance_type: n1-standard-16
   ports: 8888  
 
 workdir: ./sky-workdir
@@ -34,9 +35,9 @@ setup: |
   cd ocs-mem-prof
   git submodule update --init --recursive
   source setup_path.sh
-  bash script/install_tpcds.sh
+  #bash script/install_tpcds.sh
   bash script/install_tools.sh
-  bash script/initialize_db.sh /tmp/tpcds-data/scale-${SCALE}-rngseed-0 ${DATA_SUFFIX} ${SCALE} 0
+  #bash script/initialize_db.sh /tmp/tpcds-data/scale-${SCALE}-rngseed-0 ${DATA_SUFFIX} ${SCALE} 0
 
   pip install --upgrade pip
   conda init bash
@@ -44,6 +45,11 @@ setup: |
   conda activate jupyter
   pip install jupyter
   pip install pandas matplotlib scikit-learn
+  pip install \
+    --extra-index-url=https://pypi.nvidia.com \
+    cudf-cu12 dask-cudf-cu12 cuml-cu12 cugraph-cu12 cuspatial-cu12 \
+    cuproj-cu12 cuxfilter-cu12 cucim pylibraft-cu12 raft-dask-cu12
+  pip install datashader  
 
 run: |
   set -e # Exit if any command fails
