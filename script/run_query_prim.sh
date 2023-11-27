@@ -9,6 +9,7 @@ declare -a QUERY_NAMES=(
 	"equijoin" \
 	"range_scan" \
 	"cross_join" \
+	"all" \
 )
 
 # Check if the correct number of arguments are provided

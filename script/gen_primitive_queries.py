@@ -96,3 +96,22 @@ for sales_tbl in sales_tbls:
         filename = filename.replace('(', '').replace(')', '')
         save_query_to_file(query, filename)
         print(f"Saved query '{query_name}' to file '{filename}'")
+
+# Generate "all" queries file
+all_queries = ""
+for sales_tbl in sales_tbls:
+    all_queries = ""
+    for query_name, template in tpc_ds_queries.items():
+        query = template.format(table=sales_tbl, column=sales_col, alt_table=items_tbl,
+                                # join_column=join_col, alt_join_column=join_col,
+                                join_column=sales_col, alt_join_column=join_col,
+                                range_column=range_col, value_1=range_from, value_2=range_to,
+                                group_column=group_column, dates_table=dates_tbl, order_column=order_column)
+        all_queries += query + "\n\n"
+
+    all_queries_name = f"ALL"
+    filename = f"{all_queries_name.replace(' ', '_').lower()}_{sales_tbl}_query.sql"
+    # remove parentheses from filename
+    filename = filename.replace('(', '').replace(')', '')
+    save_query_to_file(all_queries, filename)
+    print(f"Saved query '{query_name}' to file '{filename}'")
