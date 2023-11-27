@@ -1,0 +1,1 @@
+SELECT * FROM catalog_sales_ubmark_1000 A CROSS JOIN item B;

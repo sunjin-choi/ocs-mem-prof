@@ -1,0 +1,1 @@
+SELECT * FROM catalog_sales WHERE cs_item_sk IS NOT NULL;

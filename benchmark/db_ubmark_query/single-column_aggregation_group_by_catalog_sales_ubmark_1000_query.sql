@@ -1,0 +1,1 @@
+SELECT cs_bill_customer_sk, COUNT(*) FROM catalog_sales_ubmark_1000 GROUP BY cs_bill_customer_sk;

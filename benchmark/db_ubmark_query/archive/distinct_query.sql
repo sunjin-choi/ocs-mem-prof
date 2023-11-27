@@ -1,0 +1,1 @@
+SELECT DISTINCT cs_item_sk FROM catalog_sales;

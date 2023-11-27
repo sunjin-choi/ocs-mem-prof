@@ -1,0 +1,1 @@
+SELECT * FROM catalog_sales_ubmark_100000 ORDER BY cs_wholesale_cost;

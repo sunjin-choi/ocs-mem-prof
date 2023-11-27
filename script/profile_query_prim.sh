@@ -12,8 +12,8 @@ declare -a QUERY_NAMES=(
 )
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 <scale> <rngseed> <suffix>"
+if [ "$#" -ne 5 ]; then
+    echo "Usage: $0 <scale> <rngseed> <tbl_size> <suffix>"
 	echo "suffix is usually a machine name, but any designater will work"
     exit 1
 fi
@@ -21,7 +21,8 @@ fi
 QUERY_NAME=$1
 SCALE=$2
 RNGSEED=$3
-SUFFIX=$4
+TBL_SIZE=$4
+SUFFIX=$5
 
 ## run dynamorio-elam
 #cd build
@@ -31,9 +32,11 @@ SUFFIX=$4
 #    ./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query_prim.sh ${QUERY_NAME} ${SCALE} ${RNGSEED} 2> $CSV_FILE
 #done
 
+QUERY_TBL=catalog_sales
+
 # run dynamorio-elam
 cd build
 echo "Running query: $QUERY_NAME"
-CSV_FILE=/tmp/tpcds-trace/query_${QUERY_NAME}_scale_${SCALE}_rngseed_${RNGSEED}_${SUFFIX}.csv
-./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query_prim.sh ${QUERY_NAME} ${SCALE} ${RNGSEED} profile 2> $CSV_FILE
+CSV_FILE=/tmp/db_ubmark/query_${QUERY_NAME}_scale_${SCALE}_rngseed_${RNGSEED}_${QUERY_TBL}_ubmark_${TBL_SIZE}_${SUFFIX}.csv
+./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query_prim.sh ${QUERY_NAME} ${SCALE} ${RNGSEED} ${TBL_SIZE} profile 2> $CSV_FILE
 
