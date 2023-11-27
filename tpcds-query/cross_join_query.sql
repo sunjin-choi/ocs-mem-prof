@@ -1,1 +1,0 @@
-SELECT * FROM catalog_sales A CROSS JOIN item B;

@@ -8,5 +8,6 @@ cd $OCSMEM_HOME
 mkdir build
 cd build
 cmake --configure $DYNAMORIO_HOME
-cmake .
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .
+#cmake .
 make -j
