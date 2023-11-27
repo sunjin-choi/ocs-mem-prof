@@ -27,10 +27,13 @@ declare -a QUERY_NAMES=(
 #    exit 1
 #fi
 
-# loop over QUERY_NAMES
-for QUERY_NAME in "${QUERY_NAMES[@]}"
-do
-	sky launch -c sunjin-${QUERY_NAME} \
+# loop over QUERY_NAMES while cluster name should be with incrementing index
+for i in "${!QUERY_NAMES[@]}"; do
+	QUERY_NAME=${QUERY_NAMES[$i]}
+	CLUSTER_NAME="sunjin-db-ubmark-${i}"
+
+	echo "Launching cluster ${CLUSTER_NAME}"
+	sky launch -c ${CLUSTER_NAME} \
 		-i 20 -y -d \
 		--env QUERY_NAME=${QUERY_NAME} \
 		--env SCALE=1 \
@@ -44,8 +47,11 @@ done
 
 for QUERY_NAME in "${QUERY_NAMES[@]}"
 do
-	sky exec sunjin-${QUERY_NAME} \
-		-i 20 -y -d \
+	QUERY_NAME=${QUERY_NAMES[$i]}
+	CLUSTER_NAME="sunjin-db-ubmark-${i}"
+
+	echo "Running query ${QUERY_NAME} on cluster ${CLUSTER_NAME}"
+	sky exec ${CLUSTER_NAME} \
 		--env QUERY_NAME=${QUERY_NAME} \
 		--env SCALE=1 \
 		--env DATA_SUFFIX=_1_4 \
