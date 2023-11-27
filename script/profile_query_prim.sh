@@ -37,6 +37,6 @@ QUERY_TBL=catalog_sales
 # run dynamorio-elam
 cd build
 echo "Running query: $QUERY_NAME"
-CSV_FILE=/tmp/db_ubmark/query_${QUERY_NAME}_scale_${SCALE}_rngseed_${RNGSEED}_${QUERY_TBL}_ubmark_${TBL_SIZE}_${SUFFIX}.csv
+CSV_FILE=/tmp/db-ubmark-trace/query_${QUERY_NAME}_scale_${SCALE}_rngseed_${RNGSEED}_${QUERY_TBL}_ubmark_${TBL_SIZE}_${SUFFIX}.csv
 ./bin64/drrun -t drcachesim --simulator_type elam -- bash ${OCSMEM_HOME}/script/run_query_prim.sh ${QUERY_NAME} ${SCALE} ${RNGSEED} ${TBL_SIZE} profile 2> $CSV_FILE
 
