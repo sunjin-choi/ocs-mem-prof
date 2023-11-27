@@ -21,7 +21,7 @@ DATA_DIR=$1
 SUFFIX=$2
 SCALE=$3
 RNGSEED=$4
-#MODE=$5
+MODE=$5
 
 DB_NAME=${MODE}-scale-${SCALE}-rngseed-${RNGSEED}
 
@@ -43,7 +43,7 @@ if [ "$MODE" == "tpcds" ]; then
 
 elif [ "$MODE" == "ubmark_1000" ]; then
 	cd $DATA_DIR
-	SUFFIX=catalog_sales_1_4
+	i=`ls catalog_sales${SUFFIX}.dat`
 	table=${i/$SUFFIX.dat/}
 	echo "Loading $table..."
 	sed 's/|$//' $i > /tmp/$i
@@ -53,7 +53,7 @@ elif [ "$MODE" == "ubmark_1000" ]; then
 
 elif [ "$MODE" == "ubmark_10000" ]; then
 	cd $DATA_DIR
-	SUFFIX=catalog_sales_1_4
+	i=catalog_sales_1_4.dat
 	table=${i/$SUFFIX.dat/}
 	echo "Loading $table..."
 	sed 's/|$//' $i > /tmp/$i
@@ -63,7 +63,7 @@ elif [ "$MODE" == "ubmark_10000" ]; then
 
 elif [ "$MODE" == "ubmark_100000" ]; then
 	cd $DATA_DIR
-	SUFFIX=catalog_sales_1_4
+	i=catalog_sales_1_4.dat
 	table=${i/$SUFFIX.dat/}
 	echo "Loading $table..."
 	sed 's/|$//' $i > /tmp/$i
@@ -76,7 +76,5 @@ else
 	exit 1
 fi
 
-# vacuum analyze
-psql $DB_NAME -c "VACUUM ANALYZE;"
-
-
+## vacuum analyze
+#psql $DB_NAME -c "VACUUM ANALYZE;"
