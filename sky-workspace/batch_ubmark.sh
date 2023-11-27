@@ -30,10 +30,11 @@ MODE=$1
 #fi
 
 if [ "$MODE" = "setup" ]; then
+
 # loop over QUERY_NAMES while cluster name should be with incrementing index
 for i in "${!QUERY_NAMES[@]}"; do
 	QUERY_NAME=${QUERY_NAMES[$i]}
-	CLUSTER_NAME="sunjin-db-ubmark-${i}"
+	CLUSTER_NAME="sunjin-db-ubmark-${i}-100000"
 
 	echo "Launching cluster ${CLUSTER_NAME}"
 	sky launch -c ${CLUSTER_NAME} \
@@ -42,28 +43,40 @@ for i in "${!QUERY_NAMES[@]}"; do
 		--env SCALE=1 \
 		--env DATA_SUFFIX=_1_4 \
 		--env RNGSEED=0 \
-		--env TBL_SIZE=1000 \
+		--env TBL_SIZE=100000 \
 		--env CSV_SUFFIX=n2-standard-8 \
-		./sky-config/db_ubmark_runner/setup-and-run.yml \
+		./sky-config/db_ubmark_runner/setup.yml \
 		&
 done
 
 elif [ "$MODE" = "run" ]; then
+
 for i in "${!QUERY_NAMES[@]}"; do
 	QUERY_NAME=${QUERY_NAMES[$i]}
-	CLUSTER_NAME="sunjin-db-ubmark-${i}"
+	CLUSTER_NAME="sunjin-db-ubmark-${i}-100000"
 
 	echo "Running query ${QUERY_NAME} on cluster ${CLUSTER_NAME}"
 	sky exec ${CLUSTER_NAME} \
+		-n ${QUERY_NAME}_100000 \
 		--env QUERY_NAME=${QUERY_NAME} \
 		--env SCALE=1 \
 		--env DATA_SUFFIX=_1_4 \
 		--env RNGSEED=0 \
-		--env TBL_SIZE=1000 \
+		--env TBL_SIZE=100000 \
 		--env CSV_SUFFIX=n2-standard-8 \
-		./sky-config/db_ubmark_runner/setup-and-run.yml \
+		./sky-config/db_ubmark_runner/run.yml \
 		&
 done
+
+elif [ "$MODE" = "down" ]; then
+
+for i in "${!QUERY_NAMES[@]}"; do
+	QUERY_NAME=${QUERY_NAMES[$i]}
+	CLUSTER_NAME="sunjin-db-ubmark-${i}"
+
+	sky down ${CLUSTER_NAME} -y &
+done
+
 fi
 
 #sky exec sunjin-tpcds-prim -n $QUERY_NAME --env QUERY_NAME=$QUERY_NAME --env SCALE=1 --env RNGSEED=0 --env SUFFIX=n1-standard-8 ./sky-config/tpcds-query-prim-profile.yml &
