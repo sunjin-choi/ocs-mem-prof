@@ -28,25 +28,24 @@ declare -a QUERY_NAMES=(
 #fi
 
 # loop over QUERY_NAMES while cluster name should be with incrementing index
+#for i in "${!QUERY_NAMES[@]}"; do
+#	QUERY_NAME=${QUERY_NAMES[$i]}
+#	CLUSTER_NAME="sunjin-db-ubmark-${i}"
+#
+#	echo "Launching cluster ${CLUSTER_NAME}"
+#	sky launch -c ${CLUSTER_NAME} \
+#		-i 20 -y -d \
+#		--env QUERY_NAME=${QUERY_NAME} \
+#		--env SCALE=1 \
+#		--env DATA_SUFFIX=_1_4 \
+#		--env RNGSEED=0 \
+#		--env TBL_SIZE=1000 \
+#		--env CSV_SUFFIX=n2-standard-8 \
+#		./sky-config/db_ubmark_runner/setup-and-run.yml \
+#		&
+#done
+
 for i in "${!QUERY_NAMES[@]}"; do
-	QUERY_NAME=${QUERY_NAMES[$i]}
-	CLUSTER_NAME="sunjin-db-ubmark-${i}"
-
-	echo "Launching cluster ${CLUSTER_NAME}"
-	sky launch -c ${CLUSTER_NAME} \
-		-i 20 -y -d \
-		--env QUERY_NAME=${QUERY_NAME} \
-		--env SCALE=1 \
-		--env DATA_SUFFIX=_1_4 \
-		--env RNGSEED=0 \
-		--env TBL_SIZE=1000 \
-		--env CSV_SUFFIX=n2-standard-8 \
-		./sky-config/db_ubmark_runner/setup-and-run.yml \
-		&
-done
-
-for QUERY_NAME in "${QUERY_NAMES[@]}"
-do
 	QUERY_NAME=${QUERY_NAMES[$i]}
 	CLUSTER_NAME="sunjin-db-ubmark-${i}"
 
