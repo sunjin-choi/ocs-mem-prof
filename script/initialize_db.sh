@@ -23,7 +23,7 @@ SCALE=$3
 RNGSEED=$4
 MODE=$5
 
-DB_NAME=${MODE}-scale-${SCALE}-rngseed-${RNGSEED}
+DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
 
 # initialize db
 cd $TPCHOME/tools
@@ -49,7 +49,7 @@ elif [ "$MODE" == "ubmark_1000" ]; then
 	sed 's/|$//' $i > /tmp/$i
 	psql $DB_NAME -q -c "TRUNCATE $table"
 	psql $DB_NAME -c "\\copy $table FROM '/tmp/$i' CSV DELIMITER '|'"
-	psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_1000 AS SELECT * FROM catalog_sales LIMIT 1000;"
+	psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_1000 AS SELECT * FROM catalog_sales ORDER BY RANDOM() LIMIT 1000;"
 
 elif [ "$MODE" == "ubmark_10000" ]; then
 	cd $DATA_DIR
@@ -59,7 +59,7 @@ elif [ "$MODE" == "ubmark_10000" ]; then
 	sed 's/|$//' $i > /tmp/$i
 	psql $DB_NAME -q -c "TRUNCATE $table"
 	psql $DB_NAME -c "\\copy $table FROM '/tmp/$i' CSV DELIMITER '|'"
-	psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_10000 AS SELECT * FROM catalog_sales LIMIT 10000;"
+	psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_10000 AS SELECT * FROM catalog_sales ORDER BY RANDOM() LIMIT 10000;"
 
 elif [ "$MODE" == "ubmark_100000" ]; then
 	cd $DATA_DIR
@@ -69,7 +69,7 @@ elif [ "$MODE" == "ubmark_100000" ]; then
 	sed 's/|$//' $i > /tmp/$i
 	psql $DB_NAME -q -c "TRUNCATE $table"
 	psql $DB_NAME -c "\\copy $table FROM '/tmp/$i' CSV DELIMITER '|'"
-	psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_100000 AS SELECT * FROM catalog_sales LIMIT 100000;"
+	psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_100000 AS SELECT * FROM catalog_sales ORDER BY RANDOM() LIMIT 100000;"
 
 else
 	echo "Invalid mode"

@@ -18,8 +18,8 @@ file_mounts:
     name: tpcds-data-blob
     store: gcs
     mode: MOUNT
-  /tmp/db-umark-trace:
-    name: db-umark-trace
+  /tmp/db-ubmark-trace:
+    name: db-ubmark-trace
     store: gcs
     mode: MOUNT
 
