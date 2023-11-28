@@ -5,3 +5,7 @@
 # venv
 *venv
 
+# build artifacts
+cache/bazel-*
+*.gch
+*.o
