@@ -12,6 +12,12 @@ declare -a QUERY_NAMES=(
 	"sort_order_by" \
 )
 
+declare -a TBL_SIZES=(
+	1000 \
+	10000 \
+	100000 \
+)
+
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <mode>"
@@ -31,42 +37,46 @@ MODE=$1
 
 if [ "$MODE" = "setup" ]; then
 
-# loop over QUERY_NAMES while cluster name should be with incrementing index
-for i in "${!QUERY_NAMES[@]}"; do
-	QUERY_NAME=${QUERY_NAMES[$i]}
-	CLUSTER_NAME="sunjin-db-ubmark-${i}-100000"
+for tbl_size in "${TBL_SIZES[@]}"; do	
+	# loop over QUERY_NAMES while cluster name should be with incrementing index
+	for i in "${!QUERY_NAMES[@]}"; do
+		QUERY_NAME=${QUERY_NAMES[$i]}
+		CLUSTER_NAME="sunjin-db-ubmark-${i}-${tbl_size}"
 
-	echo "Launching cluster ${CLUSTER_NAME}"
-	sky launch -c ${CLUSTER_NAME} \
-		-i 20 -y -d \
-		--env QUERY_NAME=${QUERY_NAME} \
-		--env SCALE=1 \
-		--env DATA_SUFFIX=_1_4 \
-		--env RNGSEED=0 \
-		--env TBL_SIZE=100000 \
-		--env CSV_SUFFIX=n2-standard-8 \
-		./sky-config/db_ubmark_runner/setup.yml \
-		&
-done
+		echo "Launching cluster ${CLUSTER_NAME}"
+		sky launch -c ${CLUSTER_NAME} \
+			-i 20 -y -d \
+			--env QUERY_NAME=${QUERY_NAME} \
+			--env SCALE=1 \
+			--env DATA_SUFFIX=_1_4 \
+			--env RNGSEED=0 \
+			--env TBL_SIZE=${tbl_size}\
+			--env CSV_SUFFIX=n2-standard-8 \
+			./sky-config/db_ubmark_runner/setup.yml \
+			&
+	done
+done 
 
 elif [ "$MODE" = "run" ]; then
 
-for i in "${!QUERY_NAMES[@]}"; do
-	QUERY_NAME=${QUERY_NAMES[$i]}
-	CLUSTER_NAME="sunjin-db-ubmark-${i}-100000"
+for tbl_size in "${TBL_SIZES[@]}"; do	
+	for i in "${!QUERY_NAMES[@]}"; do
+		QUERY_NAME=${QUERY_NAMES[$i]}
+		CLUSTER_NAME="sunjin-db-ubmark-${i}-${tbl_size}"
 
-	echo "Running query ${QUERY_NAME} on cluster ${CLUSTER_NAME}"
-	sky exec ${CLUSTER_NAME} \
-		-n ${QUERY_NAME}_100000 \
-		--env QUERY_NAME=${QUERY_NAME} \
-		--env SCALE=1 \
-		--env DATA_SUFFIX=_1_4 \
-		--env RNGSEED=0 \
-		--env TBL_SIZE=100000 \
-		--env CSV_SUFFIX=n2-standard-8 \
-		./sky-config/db_ubmark_runner/run.yml \
-		&
-done
+		echo "Running query ${QUERY_NAME} on cluster ${CLUSTER_NAME}"
+		sky exec ${CLUSTER_NAME} \
+			-n ${QUERY_NAME}_100000 \
+			--env QUERY_NAME=${QUERY_NAME} \
+			--env SCALE=1 \
+			--env DATA_SUFFIX=_1_4 \
+			--env RNGSEED=0 \
+			--env TBL_SIZE=${tbl_size}\
+			--env CSV_SUFFIX=n2-standard-8 \
+			./sky-config/db_ubmark_runner/run.yml \
+			&
+	done
+done 
 
 elif [ "$MODE" = "down" ]; then
 
