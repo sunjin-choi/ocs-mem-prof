@@ -37,9 +37,8 @@ echo "max_parallel_workers = 1" | sudo tee  -a /etc/postgresql/16/main/postgresq
 cd $OCSMEM_HOME/dynamorio
 mkdir build
 cd build
-cmake --configure ..
-cmake .
-make
+cmake ..
+make -j
 bin64/drrun -t drcachesim  -simulator_type elam -- ls
 ```
 
