@@ -95,4 +95,4 @@ gcsfuse tpcds-trace bucket_data
 
 ## Run cache simulation
 `bazel build //cache:run_cache_sim`
-`./bazel-bin/cache/run_cache_sim [path_to_trace.csv]`
+`./run_cache_sim.sh [path_to_trace.csv]`
