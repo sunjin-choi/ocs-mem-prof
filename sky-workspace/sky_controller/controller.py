@@ -6,7 +6,8 @@ from sky_controller.cluster_manager import ClusterManager, ClusterManagerStatus
 import signal
 import threading
 import time
-import multiprocessing
+# import multiprocessing
+from multiprocessing.pool import ThreadPool as Pool
 
 # For multiprocessing
 def initialize_job(task_yaml_file, env) -> Job:
@@ -85,21 +86,19 @@ class Controller:
         #         Job.from_yaml_with_envs_override(task_yaml_file, JobType.EXEC, env)
         #     )
 
-        job_list = []
-
         # Create a list of arguments for each job to be added
-        args_list = [(job_list, task_yaml_file, env) for env in env_list]
+        args_list = [(task_yaml_file, env) for env in env_list]
 
         print(f"Job init start")
 
         # Create a pool of worker processes
-        with multiprocessing.Pool() as pool:
+        with Pool() as pool:
             # Use pool.starmap to execute the add_job_to_pool function in parallel
             for job in pool.starmap(initialize_job, args_list):
                 job_pool.add_job(job)
                 print(f"Job {job.name} added to pool")
 
-        print(f"Job init complete")
+        print(f"Job init complete: {len(job_pool.jobs)} job added")
         # job_pool.add_jobs(job_list)
 
         return cls(

@@ -6,7 +6,7 @@ test_task_yaml = "./sky-config/db_tpcds_runner/run.yml"
 
 def test_controller():
 
-    query_list = range(1, 99)
+    query_list = range(1, 100)
 
     env_list = [{"QUERY_NAME": i, "SCALE": 1, "RNGSEED": 0, "CSV_SUFFIX": "n2-standard-16"} for i in query_list]
 

@@ -8,8 +8,8 @@ class JobPool:
         self.lock = threading.RLock()
 
     def add_job(self, job):
-        # with self.lock:
-        self.jobs.append(job)
+        with self.lock:
+            self.jobs.append(job)
 
     def add_jobs(self, jobs):
         self.jobs += jobs
