@@ -134,7 +134,7 @@ class ClusterManager:
             sky.launch(
                 task=self.job_setup.task,
                 cluster_name=cluster_name,
-                idle_minutes_to_autostop=5,
+                idle_minutes_to_autostop=10,
                 down=True,
                 stream_logs=False,
                 detach_setup=True,
