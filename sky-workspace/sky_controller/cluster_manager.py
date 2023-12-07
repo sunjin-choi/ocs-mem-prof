@@ -47,9 +47,9 @@ class ClusterManager:
 
     def _schedule_job_fifo(self):
         """Poll the cluster status periodically."""
-        if not self.reuse_clusters:
-            for cluster_name in self.cluster_names:
-                self._launch_cluster(cluster_name)
+        # if not self.reuse_clusters:
+        for cluster_name in self.cluster_names:
+            self._launch_cluster(cluster_name)
 
         while not self._stop_event.is_set():
             try:
@@ -70,7 +70,7 @@ class ClusterManager:
                     # if job status is not empty, move to the next cluster
                     cluster_running = job_running
                     # if job status is empty and job pool is empty, break and signal controller to stop
-                    all_jobs_complete = job_succeeded and self.job_pool.is_empty()
+                    cluster_done = job_succeeded and self.job_pool.is_empty()
 
                     if self._stop_event.is_set():
                         break
@@ -86,8 +86,8 @@ class ClusterManager:
                     elif cluster_running:
                         print(f"Cluster {cluster_name} is running.")
                         continue
-                    elif all_jobs_complete:
-                        print(f"all jobs complete.")
+                    elif cluster_done:
+                        print(f"Cluster {cluster_name} is done.")
                         self.controller.signal_done(self.id)
                         # self._stop_event.set()
                         # break
