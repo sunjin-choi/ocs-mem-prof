@@ -47,9 +47,9 @@ class ClusterManager:
 
     def _schedule_job_fifo(self):
         """Poll the cluster status periodically."""
-        if not self.reuse_clusters:
-            for cluster_name in self.cluster_names:
-                self._launch_cluster(cluster_name)
+        # if not self.reuse_clusters:
+        for cluster_name in self.cluster_names:
+            self._launch_cluster(cluster_name)
 
         while not self._stop_event.is_set():
             try:
