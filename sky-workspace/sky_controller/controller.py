@@ -85,7 +85,11 @@ class Controller:
         """Run the controller."""
         self.start_all_managers()
         while not self.exit_event.is_set():
-            time.sleep(1)  # Wait for a signal to exit
+            if self._check_all_done():
+                break
+            time.sleep(30)  # Wait for a signal to exit
+
+        self.abort()
 
     def _handle_sigint(self, signum, frame):
         """Handle Ctrl+C (SIGINT) signal."""
@@ -114,7 +118,7 @@ class Controller:
 
     def signal_done(self, manager_id):
         self.manager_status[manager_id] = ClusterManagerStatus.DONE
-        self._check_all_done()
+        # self._check_all_done()
 
     def signal_abort(self, manager_id):
         self.manager_status[manager_id] = ClusterManagerStatus.ABORT
@@ -123,13 +127,14 @@ class Controller:
 
     def _check_all_done(self):
         """Check if all managers are done."""
-        if all(
-            status == ClusterManagerStatus.DONE
-            for status in self.manager_status.values()
-        ):
-            print("All managers are done. Exiting.")
-            self.abort()
+        # if all(
+        #     status == ClusterManagerStatus.DONE
+        #     for status in self.manager_status.values()
+        # ):
+        #     print("All managers are done. Exiting.")
+        #     self.abort()
 
+        return all(status == ClusterManagerStatus.DONE for status in self.manager_status.values())
 
 # # Example usage
 # controller = Controller()

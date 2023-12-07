@@ -83,7 +83,7 @@ class ClusterManager:
                     )
 
                     if cluster_wait_jobs_incomplete:
-                        print(f"Cluster {cluster_name} is waiting for jobs.")
+                        print(f"Piping a job to cluster {cluster_name}.")
                         self._pipe_job_to_cluster(
                             cluster_name, self.job_pool.get_next_job()
                         )
@@ -93,13 +93,15 @@ class ClusterManager:
                     elif all_jobs_complete:
                         print(f"all jobs complete.")
                         self.controller.signal_done(self.id)
-                        self._stop_event.set()
-                        break
+                        # self._stop_event.set()
+                        # break
+                        return
                     elif job_failed:
                         print(f"Job failed.")
                         self.controller.signal_abort(self.id)
-                        self._stop_event.set()
-                        break
+                        # self._stop_event.set()
+                        # break
+                        return
 
             except ValueError as e:
                 print(f"Cluster not found: {e}")
@@ -126,8 +128,6 @@ class ClusterManager:
                 backend=None,
                 detach_run=True,
             )
-
-            print(f"Job {job.task} piped to cluster {cluster_name}.")
         else:
             # skip if job is a setup job
             pass
