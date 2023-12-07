@@ -6,7 +6,7 @@
 #  SCALE: 1
 #  DATA_SUFFIX: _1_4
 
-name: tq
+name: t
 
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.

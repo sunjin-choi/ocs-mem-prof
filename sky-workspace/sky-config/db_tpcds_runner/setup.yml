@@ -2,7 +2,7 @@
 # In bash script
 # run `sky exec <mycluster> --env QUERY_NUM=<QUERY_NUM> --env SCALE=<SCALE> --env RNGSEED=<RNGSEED> --env SUFFIX=<SUFFIX> <this-yaml>`
 
-name: tq
+name: t
 
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.
