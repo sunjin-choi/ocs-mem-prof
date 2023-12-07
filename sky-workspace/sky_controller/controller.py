@@ -9,9 +9,10 @@ import time
 import multiprocessing
 
 # For multiprocessing
-def add_job_to_pool(job_pool, task_yaml_file, env):
+def add_job_to_list(job_list, task_yaml_file, env):
     job = Job.from_yaml_with_envs_override(task_yaml_file, JobType.EXEC, env)
-    job_pool.add_job(job)
+    job_list.append(job)
+    print(f"Job init complete: {env}")
 
 class Controller:
     def __init__(
@@ -86,13 +87,20 @@ class Controller:
         #         Job.from_yaml_with_envs_override(task_yaml_file, JobType.EXEC, env)
         #     )
 
+        job_list = []
+
         # Create a list of arguments for each job to be added
-        args_list = [(job_pool, task_yaml_file, env) for env in env_list]
+        args_list = [(job_list, task_yaml_file, env) for env in env_list]
+
+        print(f"Job init start")
 
         # Create a pool of worker processes
         with multiprocessing.Pool() as pool:
             # Use pool.starmap to execute the add_job_to_pool function in parallel
-            pool.starmap(add_job_to_pool, args_list)
+            pool.starmap(add_job_to_list, args_list)
+
+        print(f"Job init complete")
+        job_pool.add_jobs(job_list)
 
         return cls(
             job_setup,

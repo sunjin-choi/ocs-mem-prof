@@ -11,6 +11,9 @@ class JobPool:
         # with self.lock:
         self.jobs.append(job)
 
+    def add_jobs(self, jobs):
+        self.jobs += jobs
+
     def get_next_job(self):
         with self.lock:
             return self.jobs.pop(0) if self.jobs else None
