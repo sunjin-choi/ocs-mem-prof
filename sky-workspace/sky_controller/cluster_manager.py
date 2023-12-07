@@ -55,13 +55,13 @@ class ClusterManager:
             try:
                 for cluster_name in self.cluster_names:
                     # get latest job info
-                    job_status, = sky.job_status(
+                    (job_status,) = sky.job_status(
                         cluster_name=cluster_name, job_ids=None, stream_logs=False
                     ).values()
 
-                    job_succeeded = str(job_status) == 'JobStatus.SUCCEEDED'
-                    job_running = str(job_status) == 'JobStatus.RUNNING'
-                    job_failed = str(job_status) == 'JobStatus.FAILED'
+                    job_succeeded = str(job_status) == "JobStatus.SUCCEEDED"
+                    job_running = str(job_status) == "JobStatus.RUNNING"
+                    job_failed = str(job_status) == "JobStatus.FAILED"
 
                     # if job status is empty and job pool is not empty, pipe a job to the cluster
                     cluster_wait_jobs_incomplete = (
@@ -70,17 +70,13 @@ class ClusterManager:
                     # if job status is not empty, move to the next cluster
                     cluster_running = job_running
                     # if job status is empty and job pool is empty, break and signal controller to stop
-                    all_jobs_complete = (
-                        job_succeeded and self.job_pool.is_empty()
-                    )
+                    all_jobs_complete = job_succeeded and self.job_pool.is_empty()
 
                     if self._stop_event.is_set():
                         break
 
                     # print how many jobs left in the pool
-                    print(
-                        f"{len(self.job_pool.jobs)} jobs left in the pool."
-                    )
+                    print(f"{len(self.job_pool.jobs)} jobs left in the pool.")
 
                     if cluster_wait_jobs_incomplete:
                         print(f"Piping a job to cluster {cluster_name}.")

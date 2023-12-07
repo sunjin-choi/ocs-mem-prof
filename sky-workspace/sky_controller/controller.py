@@ -77,9 +77,18 @@ class Controller:
 
         job_pool = JobPool()
         for env in env_list:
-            job_pool.add_job(Job.from_yaml_with_envs_override(task_yaml_file, JobType.EXEC, env))
+            job_pool.add_job(
+                Job.from_yaml_with_envs_override(task_yaml_file, JobType.EXEC, env)
+            )
 
-        return cls(job_setup, job_pool, num_managers, num_clusters, polling_interval, reuse_clusters)
+        return cls(
+            job_setup,
+            job_pool,
+            num_managers,
+            num_clusters,
+            polling_interval,
+            reuse_clusters,
+        )
 
     def run(self):
         """Run the controller."""
@@ -134,7 +143,11 @@ class Controller:
         #     print("All managers are done. Exiting.")
         #     self.abort()
 
-        return all(status == ClusterManagerStatus.DONE for status in self.manager_status.values())
+        return all(
+            status == ClusterManagerStatus.DONE
+            for status in self.manager_status.values()
+        )
+
 
 # # Example usage
 # controller = Controller()
