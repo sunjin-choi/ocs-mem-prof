@@ -23,6 +23,7 @@ class ClusterManager:
         job_setup: Job,
         job_pool: JobPool,
         polling_interval: int,
+        reuse_clusters: bool = False,
     ):
         self.id = manager_id
         self.cluster_names = cluster_names
@@ -30,15 +31,14 @@ class ClusterManager:
         self.job_setup = job_setup
         self.controller = controller
         self.polling_interval = polling_interval
+        self.reuse_clusters = reuse_clusters
         self._stop_event = threading.Event()
+
         self.thread = threading.Thread(target=self._schedule_job_fifo, daemon=True)
 
     def start(self):
         """Start the watchdog thread."""
         self.thread.start()
-
-        for cluster_name in self.cluster_names:
-            self._launch_cluster(cluster_name)
 
     def stop(self):
         """Stop the watchdog thread."""
@@ -47,33 +47,57 @@ class ClusterManager:
 
     def _schedule_job_fifo(self):
         """Poll the cluster status periodically."""
+        if not self.reuse_clusters:
+            for cluster_name in self.cluster_names:
+                self._launch_cluster(cluster_name)
+
         while not self._stop_event.is_set():
             try:
                 for cluster_name in self.cluster_names:
-                    # poll job status
-                    job_status = sky.job_status(
+                    # get latest job info
+                    job_status, = sky.job_status(
                         cluster_name=cluster_name, job_ids=None, stream_logs=False
-                    )
+                    ).values()
+
+                    job_succeeded = str(job_status) == 'JobStatus.SUCCEEDED'
+                    job_running = str(job_status) == 'JobStatus.RUNNING'
+                    job_failed = str(job_status) == 'JobStatus.FAILED'
 
                     # if job status is empty and job pool is not empty, pipe a job to the cluster
                     cluster_wait_jobs_incomplete = (
-                        job_status == {None: None} and not self.job_pool.is_empty()
+                        job_succeeded and not self.job_pool.is_empty()
                     )
                     # if job status is not empty, move to the next cluster
-                    cluster_running = job_status != {None: None}
+                    cluster_running = job_running
                     # if job status is empty and job pool is empty, break and signal controller to stop
                     all_jobs_complete = (
-                        job_status == {None: None} and self.job_pool.is_empty()
+                        job_succeeded and self.job_pool.is_empty()
+                    )
+
+                    if self._stop_event.is_set():
+                        break
+
+                    # print how many jobs left in the pool
+                    print(
+                        f"{len(self.job_pool.jobs)} jobs left in the pool."
                     )
 
                     if cluster_wait_jobs_incomplete:
+                        print(f"Cluster {cluster_name} is waiting for jobs.")
                         self._pipe_job_to_cluster(
                             cluster_name, self.job_pool.get_next_job()
                         )
                     elif cluster_running:
+                        print(f"Cluster {cluster_name} is running.")
                         continue
                     elif all_jobs_complete:
+                        print(f"all jobs complete.")
                         self.controller.signal_done(self.id)
+                        self._stop_event.set()
+                        break
+                    elif job_failed:
+                        print(f"Job failed.")
+                        self.controller.signal_abort(self.id)
                         self._stop_event.set()
                         break
 
@@ -96,12 +120,14 @@ class ClusterManager:
             sky.exec(
                 task=job.task,
                 cluster_name=cluster_name,
-                dry_run=False,
+                dryrun=False,
                 down=False,
                 stream_logs=False,
                 backend=None,
                 detach_run=True,
             )
+
+            print(f"Job {job.task} piped to cluster {cluster_name}.")
         else:
             # skip if job is a setup job
             pass

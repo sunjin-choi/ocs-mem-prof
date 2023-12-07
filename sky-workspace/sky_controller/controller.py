@@ -1,6 +1,7 @@
 from typing import Dict, List
 import sky
-from sky_controller.job import JobPool, Job, JobType
+from sky_controller.job import Job, JobType
+from sky_controller.job_pool import JobPool
 from sky_controller.cluster_manager import ClusterManager, ClusterManagerStatus
 import signal
 import threading
@@ -15,6 +16,7 @@ class Controller:
         num_managers: int,
         num_clusters: int,
         polling_interval: int,
+        reuse_clusters: bool = False,
     ):
         self.job_setup = job_setup
         self.job_pool = job_pool
@@ -23,9 +25,9 @@ class Controller:
         self.cluster_managers = []
         self.manager_status = {}
 
-        # num clusters should be less than or equal to num managers
+        # num clusters should be greater than or equal to num managers
         # and also divisible by num managers
-        if num_clusters > num_managers:
+        if num_clusters < num_managers:
             raise ValueError(
                 "Number of clusters cannot be greater than number of managers."
             )
@@ -42,7 +44,7 @@ class Controller:
 
             # Generate cluster names for this manager
             cluster_names = [
-                f"{job_setup.name}-mgr_{i}-cluster_{j}"
+                f"{job_setup.name}-mgr-{i}-cluster-{j}"
                 for j in range(start_idx, end_idx)
             ]
 
@@ -53,6 +55,7 @@ class Controller:
                 job_setup=job_setup,
                 job_pool=job_pool,
                 polling_interval=polling_interval,
+                reuse_clusters=reuse_clusters,
             )
             self.add_cluster_manager(mgr)
 
@@ -68,14 +71,15 @@ class Controller:
         num_managers: int,
         num_clusters: int,
         polling_interval: int,
+        reuse_clusters: bool = False,
     ):
         job_setup = Job.from_yaml(setup_yaml_file, JobType.SETUP)
 
-        job_pool = []
+        job_pool = JobPool()
         for env in env_list:
-            job_pool.append(Job.from_yaml(task_yaml_file, JobType.EXEC, env))
+            job_pool.add_job(Job.from_yaml_with_envs_override(task_yaml_file, JobType.EXEC, env))
 
-        return cls(job_setup, job_pool, num_managers, num_clusters, polling_interval)
+        return cls(job_setup, job_pool, num_managers, num_clusters, polling_interval, reuse_clusters)
 
     def run(self):
         """Run the controller."""
