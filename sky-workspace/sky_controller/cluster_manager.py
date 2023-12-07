@@ -124,6 +124,7 @@ class ClusterManager:
                 backend=None,
                 detach_run=True,
             )
+            print(f"Piped job {job.name} to cluster {cluster_name}.")
         else:
             # skip if job is a setup job
             pass
