@@ -22,4 +22,3 @@ binary="./bazel-bin/cache/run_cache_sim"
 
 # Run the binary with the filename and line count as arguments
 "$binary" "$filename" "$line_count"
-
