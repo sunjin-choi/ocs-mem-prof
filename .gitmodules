@@ -4,3 +4,6 @@
 [submodule "tpcds-kit"]
 	path = tpcds-kit
 	url = https://github.com/gregrahn/tpcds-kit.git
+[submodule "ocs_cache_sim"]
+	path = ocs_cache_sim
+	url = git@github.com:elamdf/ocs_cache_sim.git

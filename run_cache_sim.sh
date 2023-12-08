@@ -18,7 +18,7 @@ fi
 line_count=$(wc -l < "$filename")
 
 # Path to the hardcoded binary
-binary="./bazel-bin/cache/run_cache_sim"
+binary="./bazel-bin/ocs_cache_sim/run_cache_sim"
 
 # Run the binary with the filename and line count as arguments
 "$binary" "$filename" "$line_count"
