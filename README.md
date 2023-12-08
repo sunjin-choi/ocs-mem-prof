@@ -96,3 +96,9 @@ gcsfuse tpcds-trace bucket_data
 ## Run cache simulation
 `bazel build //ocs_cache_sim:run_cache_sim`
 `./run_cache_sim.sh [path_to_trace.csv]`
+
+## Run Tests
+`bazel test //ocs_cache_sim:basic_functionality_test`
+
+## Update compile_commands.json
+`bazel run @hedron_compile_commands//:refresh_all`
