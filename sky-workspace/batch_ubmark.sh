@@ -51,7 +51,7 @@ for tbl_size in "${TBL_SIZES[@]}"; do
 			--env DATA_SUFFIX=_1_4 \
 			--env RNGSEED=0 \
 			--env TBL_SIZE=${tbl_size}\
-			--env CSV_SUFFIX=n2-standard-8 \
+			--env CSV_SUFFIX=n2-standard-16 \
 			./sky-config/db_ubmark_runner/setup.yml \
 			&
 	done
@@ -72,7 +72,7 @@ for tbl_size in "${TBL_SIZES[@]}"; do
 			--env DATA_SUFFIX=_1_4 \
 			--env RNGSEED=0 \
 			--env TBL_SIZE=${tbl_size}\
-			--env CSV_SUFFIX=n2-standard-8 \
+			--env CSV_SUFFIX=n2-standard-16 \
 			./sky-config/db_ubmark_runner/run.yml \
 			&
 	done
