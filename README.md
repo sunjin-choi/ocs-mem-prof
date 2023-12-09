@@ -107,3 +107,10 @@ gcsfuse tpcds-trace bucket_data
 `cd mysql; ./setup_script.sh`
 `cd dynamorio/; echo "mysql -u test < '../mysql/bmark.sql'" > bmark_mysql.sh"`
 `./bin64/drrun -t drcachesim -simulator_type elam -- bash bmark_mysql.sh 2> data.csv`
+
+## Contiguous Access Example
+`cd tests; g++ contrived_increasing_access.cpp`
+`./bin64/drrun -t drcachesim -simulator_type elam -- ./a.out 2> data.csv`
+It'll print out the base address
+
+
