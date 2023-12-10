@@ -2,6 +2,17 @@ workspace(name = "ocs-policy-testing")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 
+# boost
+http_archive(
+    name = "com_github_nelhage_rules_boost",
+
+    url = "https://github.com/nelhage/rules_boost/archive/96e9b631f104b43a53c21c87b01ac538ad6f3b48.tar.gz",
+    strip_prefix = "rules_boost-96e9b631f104b43a53c21c87b01ac538ad6f3b48",
+)
+
+load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+boost_deps()
+
 # abseil-cpp
 http_archive(
   name = "com_google_absl",
