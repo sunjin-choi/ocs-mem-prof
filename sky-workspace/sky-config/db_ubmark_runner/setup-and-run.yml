@@ -9,7 +9,7 @@
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.
   cloud: gcp
-  instance_type: n2-standard-8
+  instance_type: n2-standard-16
 
 workdir: ./sky-workdir
 

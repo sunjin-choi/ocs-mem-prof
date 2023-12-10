@@ -100,5 +100,17 @@ gcsfuse tpcds-trace bucket_data
 ## Run Tests
 `bazel test [--copt="-D_DEBUG=1"] //ocs_cache_sim:basic_functionality_test`
 
-## Update compile_commands.json
+## Update compile\_commands.json
 `bazel run @hedron_compile_commands//:refresh_all`
+
+## Set up and run mysql benchmark (full scan on an in-memory table)
+`cd mysql; ./setup_script.sh`
+`cd dynamorio/; echo "mysql -u test < '../mysql/bmark.sql'" > bmark_mysql.sh"`
+`./bin64/drrun -t drcachesim -simulator_type elam -- bash bmark_mysql.sh 2> data.csv`
+
+## Contiguous Access Example
+`cd tests; g++ contrived_increasing_access.cpp`
+`./bin64/drrun -t drcachesim -simulator_type elam -- ./a.out 2> data.csv`
+It'll print out the base address
+
+
