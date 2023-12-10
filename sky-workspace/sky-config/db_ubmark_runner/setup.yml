@@ -31,6 +31,7 @@ setup: |
   git clone https://github.com/sunjin-choi/ocs-mem-prof.git
   cd ocs-mem-prof
   git submodule update --init --recursive
+  git submodule foreach git pull origin master
   source setup_path.sh
   bash script/install_tpcds.sh
   bash script/install_tools.sh

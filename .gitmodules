@@ -1,6 +1,7 @@
 [submodule "dynamorio"]
 	path = dynamorio
 	url = https://github.com/elamdf/dynamorio.git
+	branch = master
 [submodule "tpcds-kit"]
 	path = tpcds-kit
 	url = https://github.com/gregrahn/tpcds-kit.git

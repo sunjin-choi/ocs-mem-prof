@@ -45,7 +45,7 @@ for tbl_size in "${TBL_SIZES[@]}"; do
 
 		echo "Launching cluster ${CLUSTER_NAME}"
 		sky launch -c ${CLUSTER_NAME} \
-			-i 20 -y -d \
+			-i 10 --down -y -d \
 			--env QUERY_NAME=${QUERY_NAME} \
 			--env SCALE=1 \
 			--env DATA_SUFFIX=_1_4 \
@@ -66,7 +66,7 @@ for tbl_size in "${TBL_SIZES[@]}"; do
 
 		echo "Running query ${QUERY_NAME} on cluster ${CLUSTER_NAME}"
 		sky exec ${CLUSTER_NAME} \
-			-n ${QUERY_NAME}_100000 \
+			-n ${QUERY_NAME}_${tbl_size} \
 			--env QUERY_NAME=${QUERY_NAME} \
 			--env SCALE=1 \
 			--env DATA_SUFFIX=_1_4 \
