@@ -13,6 +13,8 @@ fi
 declare -a MODES=(
 	"tpcds" \
 	"ubmark_1000" \
+	"ubmark_2500" \
+	"ubmark_5000" \
 	"ubmark_10000" \
 	"ubmark_100000" \
 )
