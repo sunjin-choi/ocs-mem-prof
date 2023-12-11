@@ -62,6 +62,7 @@ class ClusterManager:
                     job_succeeded = str(job_status) == "JobStatus.SUCCEEDED"
                     job_running = str(job_status) == "JobStatus.RUNNING"
                     job_failed = str(job_status) == "JobStatus.FAILED"
+                    job_failed_setup = str(job_status) == "JobStatus.FAILED_SETUP"
 
                     # if job status is empty and job pool is not empty, pipe a job to the cluster
                     cluster_wait_jobs_incomplete = (
@@ -92,7 +93,7 @@ class ClusterManager:
                         # self._stop_event.set()
                         # break
                         return
-                    elif job_failed:
+                    elif job_failed or job_failed_setup:
                         print(f"Job failed.")
                         self.controller.signal_abort(self.id)
                         # self._stop_event.set()

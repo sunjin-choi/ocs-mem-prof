@@ -6,18 +6,22 @@
 #  SCALE: 1
 #  DATA_SUFFIX: _1_4
 
-name: ub
+name: c
 
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.
   cloud: gcp
-  instance_type: n2-standard-16
+  instance_type: c3-standard-22
 
 workdir: ./sky-workdir
 
 file_mounts:
   /tmp/tpcds-data:
     name: tpcds-data-blob
+    store: gcs
+    mode: MOUNT
+  /tmp/tpcds-trace:
+    name: tpcds-trace
     store: gcs
     mode: MOUNT
   /tmp/db-ubmark-trace:
@@ -29,4 +33,4 @@ run: |
   set -e # Exit if any command fails
   cd ocs-mem-prof
   source setup_path.sh
-  ./script/profile_query_prim.sh $QUERY_NAME $SCALE $RNGSEED $TBL_SIZE $CSV_SUFFIX profile
+  ./script/sim_query.sh $QUERY_NAME $SCALE $RNGSEED $CSV_SUFFIX

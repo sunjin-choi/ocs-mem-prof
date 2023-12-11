@@ -1,0 +1,54 @@
+
+# In bash script
+# run `sky exec <mycluster> --env QUERY_NUM=<QUERY_NUM> --env SCALE=<SCALE> --env RNGSEED=<RNGSEED> --env SUFFIX=<SUFFIX> <this-yaml>`
+
+name: c
+
+resources:
+  # No GPUs or TPUs specified, so a CPU instance will be provisioned.
+  cloud: gcp
+  instance_type: c3-standard-22
+
+workdir: ./sky-workdir
+
+file_mounts:
+  /tmp/tpcds-data:
+    name: tpcds-data-blob
+    store: gcs
+    mode: MOUNT
+  /tmp/tpcds-trace:
+    name: tpcds-trace
+    store: gcs
+    mode: MOUNT
+  /tmp/db-ubmark-trace:
+    name: db-ubmark-trace
+    store: gcs
+    mode: MOUNT
+
+setup: |
+  echo "install binaries..."
+  sudo apt-get install gcc make flex bison byacc git -y
+  sudo apt-get install gcc-9 build-essential cmake postgresql postgresql-client -y  
+  echo "bazel install..."
+  sudo apt install apt-transport-https curl gnupg -y
+  curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+  sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+  sudo apt update && sudo apt install bazel
+  sudo apt update && sudo apt full-upgrade
+
+  echo "clone main repo"
+  git clone https://github.com/sunjin-choi/ocs-mem-prof.git
+  cd ocs-mem-prof
+  git submodule update --init --recursive
+  git submodule foreach git pull origin master
+  source setup_path.sh
+  #bash script/install_tpcds.sh
+  #bash script/install_tools.sh
+  #bash script/initialize_db.sh /tmp/tpcds-data/scale-${SCALE}-rngseed-${RNGSEED} ${DATA_SUFFIX} ${SCALE} ${RNGSEED} tpcds
+  #bash script/initialize_db.sh /tmp/tpcds-data/scale-1-rngseed-0 _1_4 1 0 tpcds
+  #bash script/initialize_db_ramdisk.sh /tmp/tpcds-data/scale-1-rngseed-0 _1_4 1 0 tpcds
+  make
+
+run: |
+  set -e # Exit if any command fails

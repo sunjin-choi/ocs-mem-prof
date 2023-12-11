@@ -1,8 +1,8 @@
 
 from sky_controller.controller import Controller
 
-test_setup_yaml = "./sky-config/db_tpcds_runner/setup.yml"
-test_task_yaml = "./sky-config/db_tpcds_runner/run.yml"
+test_setup_yaml = "./sky-config/db_cache_sim/setup.yml"
+test_task_yaml = "./sky-config/db_cache_sim/run_tpcds.yml"
 
 def test_controller():
 
@@ -10,8 +10,8 @@ def test_controller():
 
     env_list = [{"QUERY_NAME": i, "SCALE": 1, "RNGSEED": 0, "CSV_SUFFIX": "n2-standard-16"} for i in query_list]
 
-    num_managers = 25
-    num_clusters = 25
+    num_managers = 20
+    num_clusters = 20
     polling_interval = 120
 
     controller = Controller.from_yaml_file_and_env_list(

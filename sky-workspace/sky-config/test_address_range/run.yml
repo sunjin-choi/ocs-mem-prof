@@ -6,8 +6,6 @@
 #  SCALE: 1
 #  DATA_SUFFIX: _1_4
 
-name: ub
-
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.
   cloud: gcp
@@ -29,4 +27,4 @@ run: |
   set -e # Exit if any command fails
   cd ocs-mem-prof
   source setup_path.sh
-  ./script/profile_query_prim.sh $QUERY_NAME $SCALE $RNGSEED $TBL_SIZE $CSV_SUFFIX profile
+  bash tests/test_address_range.sh ${CSV_SUFFIX}
