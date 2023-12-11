@@ -81,6 +81,16 @@ elif [ "$MODE" == "ubmark_1000" ]; then
     psql $DB_NAME -c "\\copy $table FROM '/tmp/$i' CSV DELIMITER '|'"
     psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_1000 AS SELECT * FROM catalog_sales ORDER BY RANDOM() LIMIT 1000;"
 
+elif [ "$MODE" == "ubmark_2500" ]; then
+    cd $DATA_DIR
+    i=`ls catalog_sales${SUFFIX}.dat`
+    table=${i/$SUFFIX.dat/}
+    echo "Loading $table..."
+    sed 's/|$//' $i > /tmp/$i
+    psql $DB_NAME -q -c "TRUNCATE $table"
+    psql $DB_NAME -c "\\copy $table FROM '/tmp/$i' CSV DELIMITER '|'"
+    psql $DB_NAME -c "CREATE MATERIALIZED VIEW IF NOT EXISTS catalog_sales_ubmark_2500 AS SELECT * FROM catalog_sales ORDER BY RANDOM() LIMIT 2500;"
+
 elif [ "$MODE" == "ubmark_5000" ]; then
     cd $DATA_DIR
     i=`ls catalog_sales${SUFFIX}.dat`
