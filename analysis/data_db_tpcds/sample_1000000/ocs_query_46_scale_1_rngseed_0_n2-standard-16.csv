@@ -1,0 +1,6 @@
+Cache Name, Trace File, Total Off-Node Memory Usage, Total Accesses, DRAM Accesses, Overall latency, #NFM nodes, #Backing Store nodes, NFM Utilization, Backing Store Utilization, NFM Hit Rate, Backing Store Hit Rate, NFM hits, Backing Store hits, NFM Misses, Backing Store Misses, Cluster Candidates Created, Candidate Promotion Rate
+OCS cache with random conservative replacement for both NFM and backing store,/tmp/tpcds-trace/query_46_scale_1_rngseed_0_n2-standard-16.csv,0,0,1000000,TODO,0,0,-nan,-nan,0,0,0,0,0,0,0,0
+OCS cache with random liberal replacement for both NFM and backing store,/tmp/tpcds-trace/query_46_scale_1_rngseed_0_n2-standard-16.csv,0,0,1000000,TODO,0,0,-nan,-nan,0,0,0,0,0,0,0,0
+OCS cache with clock replacement for both NFM and backing store,/tmp/tpcds-trace/query_46_scale_1_rngseed_0_n2-standard-16.csv,0,0,1000000,TODO,0,0,-nan,-nan,0,0,0,0,0,0,0,0
+Pure Far-Memory Cache with random replacement,/tmp/tpcds-trace/query_46_scale_1_rngseed_0_n2-standard-16.csv,1593344,1002482,0,TODO,0,389,0,0.998221,0,0.828217,0,828796,0,171903,0,0
+Far Memory cache with clock replacement for both NFM and backing store,/tmp/tpcds-trace/query_46_scale_1_rngseed_0_n2-standard-16.csv,1593344,1002482,0,TODO,0,389,0,0.998192,0,0.837166,0,837727,0,162943,0,0
