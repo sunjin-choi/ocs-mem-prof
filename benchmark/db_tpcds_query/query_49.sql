@@ -121,8 +121,8 @@ select  channel, item, return_ratio, return_rank, currency_rank from
  store.return_rank <= 10
  or 
  store.currency_rank <= 10
- )
- )
+ ) 
+ ) tmp_alias_
  order by 1,4,5,2
  limit 100;
 

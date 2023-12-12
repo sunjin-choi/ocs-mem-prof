@@ -1,0 +1,36 @@
+
+# In bash script
+# run `sky exec <mycluster> --env QUERY_NUM=<QUERY_NUM> --env SCALE=<SCALE> --env RNGSEED=<RNGSEED> --env SUFFIX=<SUFFIX> <this-yaml>`
+
+#envs:
+#  SCALE: 1
+#  DATA_SUFFIX: _1_4
+
+name: c
+
+resources:
+  # No GPUs or TPUs specified, so a CPU instance will be provisioned.
+  cloud: gcp
+  instance_type: c3-standard-22
+
+workdir: ./sky-workdir
+
+file_mounts:
+  /tmp/tpcds-data:
+    name: tpcds-data-blob
+    store: gcs
+    mode: MOUNT
+  /tmp/tpcds-trace:
+    name: tpcds-trace
+    store: gcs
+    mode: MOUNT
+  /tmp/db-ubmark-trace:
+    name: db-ubmark-trace
+    store: gcs
+    mode: MOUNT
+
+run: |
+  set -e # Exit if any command fails
+  cd ocs-mem-prof
+  source setup_path.sh
+  ./script/sim_query_prim.sh $QUERY_NAME $SCALE $RNGSEED $TBL_SIZE $CSV_SUFFIX $NUM_SAMPLES

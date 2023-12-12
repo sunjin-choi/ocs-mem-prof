@@ -10,8 +10,8 @@ def test_controller():
 
     env_list = [{"QUERY_NAME": i, "SCALE": 1, "RNGSEED": 0, "CSV_SUFFIX": "n2-standard-16"} for i in query_list]
 
-    num_managers = 2
-    num_clusters = 2
+    num_managers = 25
+    num_clusters = 25
     polling_interval = 120
 
     controller = Controller.from_yaml_file_and_env_list(

@@ -6,6 +6,8 @@
 #  SCALE: 1
 #  DATA_SUFFIX: _1_4
 
+name: ub
+
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.
   cloud: gcp

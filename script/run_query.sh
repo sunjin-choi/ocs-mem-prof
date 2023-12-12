@@ -11,7 +11,7 @@ SCALE=$2
 RNGSEED=$3
 
 DB_NAME=tpcds-scale-${SCALE}-rngseed-${RNGSEED}
-QUERY_DIR=${OCSMEM_HOME}/benchmark/db_tpcds_query
+QUERY_DIR=${OCSMEM_HOME}/benchmark/db_tpcds_query/mod_pgres
 QUERY_FILE=${QUERY_DIR}/query_${QUERY_NUM}.sql
 
 psql $DB_NAME -f ${QUERY_FILE} -P pager=off -o /dev/null

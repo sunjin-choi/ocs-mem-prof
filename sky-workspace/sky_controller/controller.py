@@ -147,6 +147,11 @@ class Controller:
 
     def signal_done(self, manager_id):
         self.manager_status[manager_id] = ClusterManagerStatus.DONE
+        count_manager_undone = 0
+        for status in self.manager_status.values():
+            if status != ClusterManagerStatus.DONE:
+                count_manager_undone += 1
+        print(f"Manager {manager_id} done. {count_manager_undone} managers left.")
         # self._check_all_done()
 
     def signal_abort(self, manager_id):

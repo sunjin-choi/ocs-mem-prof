@@ -6,6 +6,8 @@
 #  SCALE: 1
 #  DATA_SUFFIX: _1_4
 
+name: ub
+
 resources:
   # No GPUs or TPUs specified, so a CPU instance will be provisioned.
   cloud: gcp
@@ -36,7 +38,7 @@ setup: |
   bash script/install_tpcds.sh
   bash script/install_tools.sh
   #bash script/initialize_db.sh /tmp/tpcds-data/scale-${SCALE}-rngseed-${RNGSEED} ${DATA_SUFFIX} ${SCALE} ${RNGSEED} ubmark_${TBL_SIZE}
-  bash script/initialize_db_ramdisk.sh /tmp/tpcds-data/scale-${SCALE}-rngseed-${RNGSEED} ${DATA_SUFFIX} ${SCALE} ${RNGSEED} ubmark_${TBL_SIZE}
+  bash script/initialize_db_ramdisk.sh /tmp/tpcds-data/scale-1-rngseed-0 _1_4 1 0 $MODE
 
 run: |
   set -e # Exit if any command fails
