@@ -103,7 +103,7 @@ class ClusterManager:
                     elif job_failed:
                         # just record to the file and move on
                         with open("failed_jobs.txt", "a") as f:
-                            f.write(f"Failed: {curr_job.name} {curr_job.env_override}\n")
+                            f.write(f"Failed: {curr_job.name}\n")
 
             except ValueError as e:
                 print(f"Cluster not found: {e}")
