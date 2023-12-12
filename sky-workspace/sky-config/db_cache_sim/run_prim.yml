@@ -33,4 +33,4 @@ run: |
   set -e # Exit if any command fails
   cd ocs-mem-prof
   source setup_path.sh
-  ./script/sim_query_prim.sh $QUERY_NAME $SCALE $RNGSEED $TBL_SIZE $CSV_SUFFIX
+  ./script/sim_query_prim.sh $QUERY_NAME $SCALE $RNGSEED $TBL_SIZE $CSV_SUFFIX $NUM_SAMPLES
