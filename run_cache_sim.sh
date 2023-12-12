@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Check if exactly one argument (the filename) is provided
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <filename>"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <filename> <sim_first_n_lines>"
+	echo "To run all, sim_first_n_lines = -1"
     exit 1
 fi
 
@@ -28,4 +29,5 @@ line_count=$(wc -l "$filename" | awk '{print $1}')
 binary="./bazel-bin/ocs_cache_sim/run_cache_sim"
 
 # Run the binary with the filename and line count as arguments
-"$binary" "$filename" -n "$line_count" -o "$output_file"
+"$binary" "$filename" -n "$line_count" -o "$output_file" --sim_first_n_lines "$sim_first_n_lines"
+#"$binary" "$filename" -n "$line_count" -o "$output_file" -v
