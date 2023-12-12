@@ -81,8 +81,9 @@ class ClusterManager:
 
                     if cluster_wait_jobs_incomplete:
                         print(f"Piping a job to cluster {cluster_name}.")
+                        curr_job = self.job_pool.get_next_job()
                         self._pipe_job_to_cluster(
-                            cluster_name, self.job_pool.get_next_job()
+                            cluster_name, curr_job
                         )
                     elif cluster_running:
                         print(f"Cluster {cluster_name} is running.")
@@ -93,12 +94,16 @@ class ClusterManager:
                         # self._stop_event.set()
                         # break
                         return
-                    elif job_failed or job_failed_setup:
+                    elif job_failed_setup:
                         print(f"Job failed.")
                         self.controller.signal_abort(self.id)
                         # self._stop_event.set()
                         # break
                         return
+                    elif job_failed:
+                        # just record to the file and move on
+                        with open("failed_jobs.txt", "a") as f:
+                            f.write(f"Failed: {curr_job.name} {curr_job.env_override}\n")
 
             except ValueError as e:
                 print(f"Cluster not found: {e}")
