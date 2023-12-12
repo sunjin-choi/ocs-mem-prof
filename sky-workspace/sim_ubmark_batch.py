@@ -22,7 +22,7 @@ def test_controller():
 
     # env_list = [{"QUERY_NAME": i, "SCALE": 1, "RNGSEED": 0, "CSV_SUFFIX": "n2-standard-16"} for i in query_list]
     env_list = [{"QUERY_NAME": i, "SCALE": 1, "RNGSEED": 0, "CSV_SUFFIX": "n2-standard-16", "DATA_SUFFIX": "_1_4",
-                 "TBL_SIZE": j} for i in query_names for j in tbl_sizes]
+                 "TBL_SIZE": j, "NUM_SAMPLES": "1000000"} for i in query_names for j in tbl_sizes]
 
     num_managers = 7
     num_clusters = num_managers
