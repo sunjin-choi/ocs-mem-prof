@@ -12,8 +12,8 @@ declare -a QUERY_NAMES=(
 )
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 5 ]; then
-    echo "Usage: $0 <query_name> <scale> <rngseed> <tbl_size> <suffix>"
+if [ "$#" -ne 6 ]; then
+    echo "Usage: $0 <query_name> <scale> <rngseed> <tbl_size> <suffix> <num_samples>"
 	echo "suffix is usually a machine name, but any designater will work"
     exit 1
 fi
@@ -23,6 +23,7 @@ SCALE=$2
 RNGSEED=$3
 TBL_SIZE=$4
 SUFFIX=$5
+NUM_SAMPLES=$6
 
 ## run dynamorio-elam
 #cd build
@@ -38,4 +39,4 @@ QUERY_TBL=catalog_sales
 cd ${OCSMEM_HOME}
 echo "Running query: $QUERY_NAME"
 CSV_FILE=/tmp/db-ubmark-trace/query_${QUERY_NAME}_scale_${SCALE}_rngseed_${RNGSEED}_${QUERY_TBL}_ubmark_${TBL_SIZE}_${SUFFIX}.csv
-./run_cache_sim.sh $CSV_FILE
+./run_cache_sim.sh $CSV_FILE $NUM_SAMPLES
