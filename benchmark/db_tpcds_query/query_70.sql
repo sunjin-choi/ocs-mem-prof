@@ -30,8 +30,8 @@ select
              )
  group by rollup(s_state,s_county)
  order by
-   lochierarchy desc
-  ,case when lochierarchy = 0 then s_state end
+   grouping(s_state)+grouping(s_county) desc
+  ,case when grouping(s_state)+grouping(s_county) = 0 then s_state end
   ,rank_within_parent
  limit 100;
 
