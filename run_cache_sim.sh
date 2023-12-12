@@ -8,6 +8,7 @@ if [ "$#" -ne 2 ]; then
 fi
 
 filename=$1
+sim_first_n_lines=$2
 
 # Check if the file exists
 if [ ! -f "$filename" ]; then
