@@ -7,4 +7,4 @@
 	url = https://github.com/gregrahn/tpcds-kit.git
 [submodule "ocs_cache_sim"]
 	path = ocs_cache_sim
-	url = https://github.com/sunjin-choi/ocs_cache_sim.git
+	url = https://github.com/elamdf/ocs_cache_sim.git
