@@ -1,6 +1,6 @@
 Cache Name, Trace File, Total Off-Node Memory Usage, Total Accesses, DRAM Accesses, Overall latency, #NFM nodes, #Backing Store nodes, NFM Utilization, Backing Store Utilization, NFM Hit Rate, Backing Store Hit Rate, NFM hits, Backing Store hits, NFM Misses, Backing Store Misses, Cluster Candidates Created, Candidate Promotion Rate
-OCS cache with random conservative replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,696320,73479,926905,TODO,5,160,0.0051035,0.994774,0.981333,0.897968,368,65637,7,7458,4119,0.00121389
-OCS cache with random liberal replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,892928,110317,926905,TODO,45,128,0.376669,0.359926,0.729502,0.832872,30313,33070,11240,6636,18556,0.00242509
-OCS cache with clock replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,704512,74642,926905,TODO,7,158,0.0330109,0.966775,0.994724,0.899781,2451,64930,13,7232,19137,0.000365784
-Pure Far-Memory Cache with random replacement,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,1593344,1000588,0,TODO,0,389,0,0.999676,0,0.833242,0,833462,0,166802,0,0
-Far Memory cache with clock replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,1593344,1000588,0,TODO,0,389,0,0.999704,0,0.841782,0,842028,0,158264,0,0
+OCS cache with random conservative replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,0,0,10000,TODO,0,0,-nan,-nan,0,0,0,0,0,0,0,0
+OCS cache with random liberal replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,0,0,10000,TODO,0,0,-nan,-nan,0,0,0,0,0,0,0,0
+OCS cache with clock replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,0,0,10000,TODO,0,0,-nan,-nan,0,0,0,0,0,0,0,0
+Pure Far-Memory Cache with random replacement,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,40960,10000,0,TODO,0,10,0,1,0,0.9971,0,9971,0,29,0,0
+Far Memory cache with clock replacement for both NFM and backing store,/tmp/tpcds-trace/query_30_scale_1_rngseed_0_n2-standard-16.csv,40960,10000,0,TODO,0,10,0,1,0,0.9978,0,9978,0,22,0,0
